@@ -6,6 +6,7 @@ import {
   Collapse,
   Group,
   Space,
+  Stack,
   Textarea,
   TextInput,
   Title,
@@ -122,19 +123,20 @@ export default function EditorPage() {
       <Space h="md" />
       <Title order={3}>New lyrics</Title>
       <Space h="md" />
-      {/* {newLyrics.split("\n").map((e: string, i: number) => {
-        return (
-          <>
+      <Stack>
+        {newLyrics.split("\n").map((e: string, i: number) => {
+          let key: string = originalLyricsLines[i];
+          if (key.trim().length == 0) key = (Math.random() * 1000).toString();
+          return (
             <LineEdit
-              key={originalLyricsLines[i]}
+              key={key}
               org_lyrics={originalLyricsLines[i]}
               new_lyrics={e}
               setNewLyrics={setNewLyrics}
             />
-            <Space h="md" />
-          </>
-        );
-      })} */}
+          );
+        })}
+      </Stack>
     </AppShellTemplate>
   );
 }
