@@ -2,7 +2,6 @@
   "name": "open-cover-maker",
   "author": "angelator312",
   "version": "0.1.0",
-  "private": false,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
