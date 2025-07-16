@@ -10,22 +10,20 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
+type QueryType = { [key: string]: string };
 const original_song_name_par = "org_song_name";
 const new_song_name_par = "new_song_name";
 const url_lyrics_par = "url_for_lyrics";
 
 export default function EditorPage() {
-  const [searchQuery, setSearchQuery] = useState({
-    name: "",
-    // you can add more keys to this
-  });
+  const [searchQuery, setSearchQuery] = useState<QueryType>({});
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const updateSearchQuery = (updatedQuery: { [key: string]: any }) => {
+  const updateSearchQuery = (updatedQuery: QueryType) => {
     const params = new URLSearchParams(searchParams);
     Object.keys(updatedQuery).forEach((key) => {
       if (updatedQuery[key]) {
@@ -38,6 +36,14 @@ export default function EditorPage() {
     const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
     router.push(updatedPath);
   };
+  const handleChange2 = (object_to_add: QueryType) => {
+    const new_query: QueryType = { ...searchQuery, ...object_to_add };
+    setSearchQuery(new_query);
+    updateSearchQuery(new_query);
+  };
+  const handleChange = (key: string, e: ChangeEvent<HTMLInputElement>) => {
+    handleChange2({ [key]: e.currentTarget.value });
+  };
 
   const [opened_settings, { toggle: toggle_old_lyrics }] = useDisclosure(true);
   return (
@@ -46,7 +52,7 @@ export default function EditorPage() {
         <Group>
           <TextInput
             value={searchParams.get(original_song_name_par) ?? ""}
-            // onChange={(e) => searchParams.set(original_song_name_par, "")}
+            onChange={(e) => handleChange(original_song_name_par, e)}
             label="Original song name"
             description="Input the name of the original song."
           />
