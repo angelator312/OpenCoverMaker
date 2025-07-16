@@ -53,22 +53,24 @@ export default function EditorPage() {
           <TextInput
             value={searchParams.get(original_song_name_par) ?? ""}
             onChange={(e) => handleChange(original_song_name_par, e)}
-            label="Original song name"
+            label="Name of the original song"
             description="Input the name of the original song."
           />
           <TextInput
             value={searchParams.get(new_song_name_par) ?? ""}
-            label="The name of the cover/parody"
+            onChange={(e) => handleChange(new_song_name_par, e)}
+            label="Name of the new song"
             description="Input the name of the new song."
           />
           {/* <TextInput
             value={searchParams.get(url_lyrics_par) ?? ""}
+            onChange={(e) => handleChange(url_lyrics_par, e)}
             label="URL for lyrics"
             description="Paste URL for lyrics."
             placeholder="genius.com or azlyrics.com/ "
           /> */}
           <Textarea
-            label={"Original Lyrics"}
+            label="Original Lyrics"
             description="Paste the original lyrics of the song" // Think about better description
             autosize
             resize="both"
