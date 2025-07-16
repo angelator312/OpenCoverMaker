@@ -1,5 +1,6 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
+import LineEdit from "@/components/LineEdit";
 import {
   Button,
   Collapse,
@@ -7,16 +8,18 @@ import {
   Space,
   Textarea,
   TextInput,
+  Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 type QueryType = { [key: string]: string };
 const original_song_name_par = "org_song_name";
 const new_song_name_par = "new_song_name";
 const url_lyrics_par = "url_for_lyrics";
 const original_lyrics_par = "org_lyrics";
+const new_lyrics_par = "new_lyrics";
 
 export default function EditorPage() {
   const [searchQuery, setSearchQuery] = useState<QueryType>({});
@@ -55,6 +58,22 @@ export default function EditorPage() {
 
   const [opened_settings, { toggle: toggle_settings }] = useDisclosure(true);
   const [opened_lyrics, { toggle: toggle_lyrics }] = useDisclosure(true);
+  const [newLyrics, setNewLyrics] = useState<string>("");
+  const [originalLyricsLines, setOriginalLyricsLines] = useState<Array<string>>(
+    [""],
+  );
+
+  useEffect(() => {
+    const orgLyrics = searchParams.get(original_lyrics_par) ?? "";
+    setOriginalLyricsLines(orgLyrics.split("\n"));
+    if (newLyrics.trim().length == 0) setNewLyrics(orgLyrics);
+    else {
+      const org_new_lines = (orgLyrics.match(/\\n/g) || []).length;
+      const new_new_lines = (newLyrics.match(/\\n/g) || []).length;
+      if (new_new_lines < org_new_lines)
+        setNewLyrics(newLyrics + "\n".repeat(org_new_lines - new_new_lines));
+    }
+  }, [searchParams.get(original_lyrics_par)]);
   return (
     <AppShellTemplate is_in_editor={true}>
       <Button onClick={toggle_settings}>
@@ -100,6 +119,22 @@ export default function EditorPage() {
           ></Textarea>
         </Collapse>
       </Collapse>
+      <Space h="md" />
+      <Title order={3}>New lyrics</Title>
+      <Space h="md" />
+      {/* {newLyrics.split("\n").map((e: string, i: number) => {
+        return (
+          <>
+            <LineEdit
+              key={originalLyricsLines[i]}
+              org_lyrics={originalLyricsLines[i]}
+              new_lyrics={e}
+              setNewLyrics={setNewLyrics}
+            />
+            <Space h="md" />
+          </>
+        );
+      })} */}
     </AppShellTemplate>
   );
 }
