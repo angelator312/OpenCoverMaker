@@ -1,6 +1,7 @@
 "use client";
 import { AppShell, Burger, Center, Group, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import Link from "next/link";
 export default function AppShellTemplate({
   children,
   is_in_editor = false,
@@ -24,7 +25,11 @@ export default function AppShellTemplate({
           {/* <MantineLogo size={30} /> */}
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+      <AppShell.Navbar p="md">
+        <Link href="/">Main Page</Link>
+        <Link href="/editor">Editor</Link>
+        {/* <Link href="/catalogue">Catalogue</Link> */}
+      </AppShell.Navbar>
       <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   );
