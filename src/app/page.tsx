@@ -1,3 +1,9 @@
+import AppShellTemplate from "@/components/AppShellTemplate";
+
 export default function HomePage() {
-  return <div>Home page</div>;
+  return (
+    <AppShellTemplate>
+      <div>Home page</div>
+    </AppShellTemplate>
+  );
 }
