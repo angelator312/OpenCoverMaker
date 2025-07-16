@@ -16,6 +16,7 @@ type QueryType = { [key: string]: string };
 const original_song_name_par = "org_song_name";
 const new_song_name_par = "new_song_name";
 const url_lyrics_par = "url_for_lyrics";
+const original_lyrics_par = "org_lyrics";
 
 export default function EditorPage() {
   const [searchQuery, setSearchQuery] = useState<QueryType>({});
@@ -45,9 +46,21 @@ export default function EditorPage() {
     handleChange2({ [key]: e.currentTarget.value });
   };
 
-  const [opened_settings, { toggle: toggle_old_lyrics }] = useDisclosure(true);
+  const handleChangeForArea = (
+    key: string,
+    e: ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    handleChange2({ [key]: e.currentTarget.value });
+  };
+
+  const [opened_settings, { toggle: toggle_settings }] = useDisclosure(true);
+  const [opened_lyrics, { toggle: toggle_lyrics }] = useDisclosure(true);
   return (
     <AppShellTemplate is_in_editor={true}>
+      <Button onClick={toggle_settings}>
+        {opened_settings ? "Hide" : "Show"} settings
+      </Button>
+      <Space h="md" />
       <Collapse in={opened_settings}>
         <Group>
           <TextInput
@@ -62,23 +75,31 @@ export default function EditorPage() {
             label="Name of the new song"
             description="Input the name of the new song."
           />
-          {/* <TextInput
+          <TextInput
             value={searchParams.get(url_lyrics_par) ?? ""}
             onChange={(e) => handleChange(url_lyrics_par, e)}
             label="URL for lyrics"
             description="Paste URL for lyrics."
             placeholder="genius.com or azlyrics.com/ "
-          /> */}
+            disabled
+          />
+        </Group>
+        <Space h="md" />
+        <Button onClick={toggle_lyrics}>
+          {opened_lyrics ? "Hide" : "Show"} Original Lyrics
+        </Button>
+        <Space h="md" />
+        <Collapse in={opened_lyrics}>
           <Textarea
+            value={searchParams.get(original_lyrics_par) ?? ""}
+            onChange={(e) => handleChangeForArea(original_lyrics_par, e)}
             label="Original Lyrics"
             description="Paste the original lyrics of the song" // Think about better description
             autosize
             resize="both"
           ></Textarea>
-        </Group>
+        </Collapse>
       </Collapse>
-      <Space h="md" />
-      <Button onClick={toggle_old_lyrics}>Toggle settings visible</Button>
     </AppShellTemplate>
   );
 }
