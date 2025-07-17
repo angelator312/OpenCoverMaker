@@ -46,35 +46,40 @@ export default function EditorPage() {
     setSearchQuery(new_query);
     updateSearchQuery(new_query);
   };
-  const handleChange = (key: string, e: ChangeEvent<HTMLInputElement>) => {
-    handleChange2({ [key]: e.currentTarget.value });
-  };
-
-  const handleChangeForArea = (
+  const handleChange = (
     key: string,
-    e: ChangeEvent<HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
+    if (key == original_lyrics_par) setOriginalLyrics(e.currentTarget.value);
     handleChange2({ [key]: e.currentTarget.value });
   };
 
   const [opened_settings, { toggle: toggle_settings }] = useDisclosure(true);
   const [opened_lyrics, { toggle: toggle_lyrics }] = useDisclosure(true);
-  const [newLyrics, setNewLyrics] = useState<string>("");
+  const [newLyrics, setNewLyrics] = useState<string>(
+    searchParams.get(new_lyrics_par) ?? "",
+  );
+  const [originalLyrics, setOriginalLyrics] = useState<string>("");
+  const [newLyricsLines, setNewLyricsLines] = useState<Array<string>>([""]);
   const [originalLyricsLines, setOriginalLyricsLines] = useState<Array<string>>(
     [""],
   );
 
   useEffect(() => {
-    const orgLyrics = searchParams.get(original_lyrics_par) ?? "";
-    setOriginalLyricsLines(orgLyrics.split("\n"));
-    if (newLyrics.trim().length == 0) setNewLyrics(orgLyrics);
+    setOriginalLyricsLines(originalLyrics.split("\n"));
+    if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
     else {
-      const org_new_lines = (orgLyrics.match(/\\n/g) || []).length;
+      const org_new_lines = (originalLyrics.match(/\\n/g) || []).length;
       const new_new_lines = (newLyrics.match(/\\n/g) || []).length;
       if (new_new_lines < org_new_lines)
         setNewLyrics(newLyrics + "\n".repeat(org_new_lines - new_new_lines));
     }
-  }, [searchParams.get(original_lyrics_par)]);
+  }, [originalLyrics]);
+
+  useEffect(() => {
+    handleChange2({ [new_lyrics_par]: newLyrics });
+    setNewLyricsLines(newLyrics.split("\n"));
+  }, [newLyrics]);
   return (
     <AppShellTemplate is_in_editor={true}>
       <Button onClick={toggle_settings}>
@@ -112,8 +117,8 @@ export default function EditorPage() {
         <Collapse in={opened_lyrics}>
           <Group>
             <Textarea
-              value={searchParams.get(original_lyrics_par) ?? ""}
-              onChange={(e) => handleChangeForArea(original_lyrics_par, e)}
+              value={originalLyrics}
+              onChange={(e) => handleChange(original_lyrics_par, e)}
               label="Original Lyrics"
               description="Paste the original lyrics of the song" // Think about better description
               autosize
@@ -127,11 +132,9 @@ export default function EditorPage() {
       <Space h="md" />
       <Stack>
         {newLyrics.split("\n").map((e: string, i: number) => {
-          let key: string = originalLyricsLines[i];
-          if (key.trim().length == 0) key = (Math.random() * 1000).toString();
           return (
             <LineEdit
-              key={key}
+              key={i}
               org_lyrics={originalLyricsLines[i]}
               new_lyrics={e}
               setNewLyrics={setNewLyrics}
