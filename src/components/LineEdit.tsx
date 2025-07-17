@@ -47,7 +47,6 @@ function LineEditComp({
 
   useEffect(() => {
     setNewWordsCount(new_lyrics.split(" ").length);
-    setNewCharectersCount(new_lyrics.length);
     update();
     setReloadsCount(reloadsCount + 1);
   }, [new_lyrics]);
@@ -75,11 +74,17 @@ function LineEditComp({
           if (e.key.startsWith("Enter")) onEnterKeyPressed();
           if (e.key.startsWith("Backspace")) {
             if (new_lyrics.length == 0) onLastBackSpacePressed();
-            else setReloadsCount(reloadsCount + 1);
+            else {
+              setNewCharectersCount(newCharectersCount - 1);
+              setReloadsCount(reloadsCount + 1);
+            }
           }
         }}
         value={new_lyrics}
-        onChange={(e) => setNewLyrics(e.currentTarget.value)}
+        onChange={(e) => {
+          setNewCharectersCount(newCharectersCount + 1);
+          setNewLyrics(e.currentTarget.value);
+        }}
         variant={autoFocus ? "default" : "unstyled"}
         // inputSize="100"
       />
