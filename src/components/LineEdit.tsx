@@ -22,8 +22,10 @@ export default function LineEdit({
   onLastBackSpacePressed: () => void;
 }) {
   const [originalCharectersCount, setOriginalCharectersCount] =
-    useState<number>(0);
-  const [newCharectersCount, setNewCharectersCount] = useState<number>(0);
+    useState<number>(org_lyrics.length);
+  const [newCharectersCount, setNewCharectersCount] = useState<number>(
+    new_lyrics.length,
+  );
   const [newWordsCount, setNewWordsCount] = useState<number>(0);
   const [originalWordsCount, setOriginalWordsCount] = useState<number>(0);
   const [reloadsCount, setReloadsCount] = useState<number>(0);
@@ -46,8 +48,11 @@ export default function LineEdit({
       Math.abs(originalCharectersCount - newCharectersCount),
     );
     setReloadsCount(reloadsCount + 1);
-    // console.log("reloads:", reloadsCount);
+  }, [originalCharectersCount, newCharectersCount]);
+
+  useEffect(() => {
     setDifferenceOfWords(Math.abs(originalWordsCount - newWordsCount));
+    setReloadsCount(reloadsCount + 1);
   }, [originalWordsCount, newWordsCount]);
   return (
     <Group>
@@ -55,12 +60,9 @@ export default function LineEdit({
         autoFocus={autoFocus}
         onKeyDown={(e) => {
           if (e.key.startsWith("Enter")) onEnterKeyPressed();
-          if (e.key.startsWith("Backspace"))
-          {
-            if(new_lyrics.length == 0)
-              onLastBackSpacePressed();
-            else 
-              setReloadsCount(reloadsCount + 1);
+          if (e.key.startsWith("Backspace")) {
+            if (new_lyrics.length == 0) onLastBackSpacePressed();
+            else setReloadsCount(reloadsCount + 1);
           }
         }}
         value={new_lyrics}
