@@ -110,14 +110,16 @@ export default function EditorPage() {
         </Button>
         <Space h="md" />
         <Collapse in={opened_lyrics}>
-          <Textarea
-            value={searchParams.get(original_lyrics_par) ?? ""}
-            onChange={(e) => handleChangeForArea(original_lyrics_par, e)}
-            label="Original Lyrics"
-            description="Paste the original lyrics of the song" // Think about better description
-            autosize
-            resize="both"
-          ></Textarea>
+          <Group>
+            <Textarea
+              value={searchParams.get(original_lyrics_par) ?? ""}
+              onChange={(e) => handleChangeForArea(original_lyrics_par, e)}
+              label="Original Lyrics"
+              description="Paste the original lyrics of the song" // Think about better description
+              autosize
+              resize="both"
+            />
+          </Group>
         </Collapse>
       </Collapse>
       <Space h="md" />
