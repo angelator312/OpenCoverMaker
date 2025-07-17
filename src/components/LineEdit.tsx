@@ -39,14 +39,14 @@ function LineEditComp({
   const [differenceOfWords, setDifferenceOfWords] = useState<number>(0);
 
   useEffect(() => {
-    setOriginalWordsCount(org_lyrics.split(" ").length);
+    setOriginalWordsCount(orgWords);
     setOriginalCharectersCount(org_lyrics.length);
     update();
     setReloadsCount(reloadsCount + 1);
   }, [org_lyrics]);
 
   useEffect(() => {
-    setNewWordsCount(new_lyrics.split(" ").length);
+    setNewWordsCount(newWords);
     update();
     setReloadsCount(reloadsCount + 1);
   }, [new_lyrics]);
@@ -58,6 +58,15 @@ function LineEditComp({
   const absoluteDifferenceOfWords = useMemo(
     () => Math.abs(originalWordsCount - newWordsCount),
     [originalWordsCount, newWordsCount],
+  );
+
+  const newWords = useMemo(
+    () => new_lyrics.trim().split(" ").length,
+    [new_lyrics],
+  );
+  const orgWords = useMemo(
+    () => org_lyrics.trim().split(" ").length,
+    [org_lyrics],
   );
 
   const update = useCallback(() => {
