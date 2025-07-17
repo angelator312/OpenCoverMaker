@@ -20,6 +20,7 @@ export default function LineEdit({
       <TextInput
         value={new_lyrics}
         onChange={(e) => setNewLyrics(e.currentTarget.value)}
+        inputSize="100"
       />
     </Group>
   );
