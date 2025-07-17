@@ -13,7 +13,9 @@ export default function LineEdit({
   onEnterKeyPressed,
   onLastBackSpacePressed,
   autoFocus = false,
+  onFocus,
 }: {
+  onFocus: () => void;
   org_lyrics: string;
   new_lyrics: string;
   autoFocus?: boolean;
@@ -34,10 +36,12 @@ export default function LineEdit({
     Math.abs(originalCharectersCount - newCharectersCount),
   );
   const [differenceOfWords, setDifferenceOfWords] = useState<number>(0);
+
   useEffect(() => {
     setOriginalWordsCount(org_lyrics.split(" ").length);
     setOriginalCharectersCount(org_lyrics.length);
   }, [org_lyrics]);
+
   useEffect(() => {
     setNewWordsCount(new_lyrics.split(" ").length);
     setNewCharectersCount(new_lyrics.length);
@@ -54,9 +58,11 @@ export default function LineEdit({
     setDifferenceOfWords(Math.abs(originalWordsCount - newWordsCount));
     setReloadsCount(reloadsCount + 1);
   }, [originalWordsCount, newWordsCount]);
+
   return (
     <Group grow>
       <TextInput
+        onFocus={onFocus}
         autoFocus={autoFocus}
         onKeyUp={(e) => {
           if (e.key.startsWith("Enter")) onEnterKeyPressed();
@@ -67,6 +73,7 @@ export default function LineEdit({
         }}
         value={new_lyrics}
         onChange={(e) => setNewLyrics(e.currentTarget.value)}
+        variant={autoFocus ? "default" : "unstyled"}
         // inputSize="100"
       />
       <Group key={reloadsCount}>
