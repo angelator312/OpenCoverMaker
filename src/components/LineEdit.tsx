@@ -1,6 +1,11 @@
 import { Button, Group, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 
+const charectersDifferenceForYellow = 3;
+const wordsDifferenceForYellow = 3;
+const charectersDifferenceForRed = 10;
+const wordsDifferenceForRed = 10;
+
 export default function LineEdit({
   org_lyrics,
   new_lyrics,
@@ -55,9 +60,31 @@ export default function LineEdit({
         inputSize="100"
       />
       <Text>Charecters</Text>
-      <Button> {newCharectersCount}</Button>
+      <Button
+        color={
+          differenceOfCharecters < charectersDifferenceForYellow
+            ? "green"
+            : differenceOfCharecters < charectersDifferenceForRed
+              ? "yellow"
+              : "red"
+        }
+      >
+        {" "}
+        {newCharectersCount}
+      </Button>
       <Text>Words</Text>
-      <Button> {newWordsCount}</Button>
+      <Button
+        color={
+          differenceOfWords < wordsDifferenceForYellow
+            ? "green"
+            : differenceOfWords < wordsDifferenceForRed
+              ? "yellow"
+              : "red"
+        }
+      >
+        {" "}
+        {newWordsCount}
+      </Button>
     </Group>
   );
 }
