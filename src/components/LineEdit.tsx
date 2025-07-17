@@ -55,7 +55,7 @@ export default function LineEdit({
     setReloadsCount(reloadsCount + 1);
   }, [originalWordsCount, newWordsCount]);
   return (
-    <Group>
+    <Group grow>
       <TextInput
         autoFocus={autoFocus}
         onKeyUp={(e) => {
@@ -67,7 +67,7 @@ export default function LineEdit({
         }}
         value={new_lyrics}
         onChange={(e) => setNewLyrics(e.currentTarget.value)}
-        inputSize="100"
+        // inputSize="100"
       />
       <Group key={reloadsCount}>
         <Text>Charecters</Text>
