@@ -79,9 +79,9 @@ export default function EditorPage() {
   }, [originalLyrics]);
 
   useEffect(() => {
+    setNewLyrics(newLyricsLines.join("\n"));
     handleChange2({ [new_lyrics_par]: newLyrics });
-    setNewLyricsLines(newLyrics.split("\n"));
-  }, [newLyrics]);
+  }, [newLyricsLines]);
   return (
     <AppShellTemplate is_in_editor={true}>
       <Group>
@@ -141,8 +141,17 @@ export default function EditorPage() {
         {newLyricsLines.map((e: string, i: number) => {
           return (
             <LineEdit
-              onEnterKeyPressed={() => setNewLyrics(newLyrics + "\n")}
-              key={i}
+              onLastBackSpacePressed={() => {
+                let splitL = newLyricsLines;
+                console.log(splitL, ":");
+                splitL = splitL.slice(0, i).concat(splitL.slice(i + 1));
+                console.log(splitL);
+                setNewLyricsLines(splitL);
+              }}
+              onEnterKeyPressed={() =>
+                setNewLyricsLines(newLyricsLines.concat([""]))
+              }
+              key={e + " i:" + i}
               org_lyrics={originalLyricsLines[i] ?? ""}
               new_lyrics={e}
               setNewLyrics={(e) => {
