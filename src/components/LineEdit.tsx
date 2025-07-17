@@ -77,36 +77,34 @@ export default function LineEdit({
         // inputSize="100"
       />
       <Group>
-        <Text>Charecters</Text>
-        <Group key={reloadsCount}>
-          <Button
-            color={
-              differenceOfCharecters < charectersDifferenceForYellow
-                ? "green"
-                : differenceOfCharecters < charectersDifferenceForRed
-                  ? "yellow"
-                  : "red"
-            }
-          >
-            {" "}
-            {newCharectersCount}
-          </Button>
-        </Group>
+        <Text>Characters</Text>
+        <Button
+          key={reloadsCount}
+          color={
+            differenceOfCharecters < charectersDifferenceForYellow
+              ? "green"
+              : differenceOfCharecters < charectersDifferenceForRed
+                ? "yellow"
+                : "red"
+          }
+        >
+          {" "}
+          {newCharectersCount}
+        </Button>
         <Text>Words</Text>
-        <Group key={reloadsCount * 10}>
-          <Button
-            color={
-              differenceOfWords < wordsDifferenceForYellow
-                ? "green"
-                : differenceOfWords < wordsDifferenceForRed
-                  ? "yellow"
-                  : "red"
-            }
-          >
-            {" "}
-            {newWordsCount}
-          </Button>
-        </Group>
+        <Button
+          key={reloadsCount * 10}
+          color={
+            differenceOfWords < wordsDifferenceForYellow
+              ? "green"
+              : differenceOfWords < wordsDifferenceForRed
+                ? "yellow"
+                : "red"
+          }
+        >
+          {" "}
+          {newWordsCount}
+        </Button>
       </Group>
     </Group>
   );
