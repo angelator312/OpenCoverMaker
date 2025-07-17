@@ -55,8 +55,13 @@ export default function LineEdit({
         autoFocus={autoFocus}
         onKeyDown={(e) => {
           if (e.key.startsWith("Enter")) onEnterKeyPressed();
-          if (e.key.startsWith("Backspace") && new_lyrics.length == 0)
-            onLastBackSpacePressed();
+          if (e.key.startsWith("Backspace"))
+          {
+            if(new_lyrics.length == 0)
+              onLastBackSpacePressed();
+            else 
+              setReloadsCount(reloadsCount + 1);
+          }
         }}
         value={new_lyrics}
         onChange={(e) => setNewLyrics(e.currentTarget.value)}
