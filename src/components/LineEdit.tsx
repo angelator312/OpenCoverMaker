@@ -1,18 +1,12 @@
 import { Button, Group, Text, TextInput } from "@mantine/core";
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 
 const charectersDifferenceForYellow = 3;
 const wordsDifferenceForYellow = 3;
 const charectersDifferenceForRed = 10;
 const wordsDifferenceForRed = 10;
-export let LineEdit = React.memo(LineEditComp, (prevProps, nextProps) => {
-  return (
-    !nextProps.autoFocus ||
-    (prevProps.org_lyrics === nextProps.org_lyrics &&
-      prevProps.new_lyrics === nextProps.new_lyrics)
-  );
-});
+export let LineEdit = React.memo(LineEditComp);
 
 function LineEditComp({
   org_lyrics,
@@ -40,30 +34,35 @@ function LineEditComp({
   const [originalWordsCount, setOriginalWordsCount] = useState<number>(0);
   const [reloadsCount, setReloadsCount] = useState<number>(1);
 
-  const [differenceOfCharecters, setDifferenceOfCharecters] = useState<number>(
-    Math.abs(originalCharectersCount - newCharectersCount),
-  );
+  const [differenceOfCharecters, setDifferenceOfCharecters] =
+    useState<number>(0);
   const [differenceOfWords, setDifferenceOfWords] = useState<number>(0);
 
   useEffect(() => {
     setOriginalWordsCount(org_lyrics.split(" ").length);
     setOriginalCharectersCount(org_lyrics.length);
     update();
+    setReloadsCount(reloadsCount + 1);
   }, [org_lyrics]);
 
   useEffect(() => {
     setNewWordsCount(new_lyrics.split(" ").length);
     setNewCharectersCount(new_lyrics.length);
     update();
+    setReloadsCount(reloadsCount + 1);
   }, [new_lyrics]);
 
-  const update = () => {
+  const update = useCallback(() => {
     setDifferenceOfCharecters(
       Math.abs(originalCharectersCount - newCharectersCount),
     );
     setDifferenceOfWords(Math.abs(originalWordsCount - newWordsCount));
-    setReloadsCount(reloadsCount + 1);
-  };
+  }, [
+    originalCharectersCount,
+    newCharectersCount,
+    originalWordsCount,
+    newWordsCount,
+  ]);
 
   return (
     <Group grow>

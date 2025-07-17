@@ -41,13 +41,11 @@ enum TypeEnum {
 export default function SquareBracketLineEdit({
   new_lyrics,
   setNewLyrics,
-  setAutoFocus,
   autoFocus = false,
 }: {
   new_lyrics: string;
   autoFocus?: boolean;
   setNewLyrics: (e: string) => void;
-  setAutoFocus: (e: number) => void;
 }) {
   const [type, setType] = useState(typeFromString(new_lyrics));
   const [value, setValue] = useState("");
@@ -73,9 +71,6 @@ export default function SquareBracketLineEdit({
       <Text>:</Text>
       <TextInput
         autoFocus={autoFocus}
-        onKeyUp={(e) => {
-          if (e.key.startsWith("Enter")) setAutoFocus(-1);
-        }}
         value={value}
         onChange={(e) => setValue(e.currentTarget.value)}
         // inputSize="100"

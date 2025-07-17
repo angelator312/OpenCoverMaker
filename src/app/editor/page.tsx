@@ -1,6 +1,6 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
-import LineEdit from "@/components/LineEdit";
+import { LineEdit } from "@/components/LineEdit";
 import SquareBracketLineEdit from "@/components/SquareBracketLineEdit";
 import {
   Button,
@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 
 type QueryType = { [key: string]: string };
 const original_song_name_par = "org_song_name";
@@ -85,12 +85,15 @@ export default function EditorPage() {
         );
     }
   }, [originalLyrics]);
-
-  useEffect(() => {
+  //TODO:Optimize the following
+  const updateNewLyrics = useCallback(() => {
     const tmp = newLyricsLines.join("\n");
     setNewLyrics(tmp);
     handleChange2({ [new_lyrics_par]: tmp });
   }, [newLyricsLines]);
+  useEffect(() => {
+    updateNewLyrics();
+  }, [nowEditingLine]);
   return (
     <AppShellTemplate is_in_editor={true}>
       <Group>
@@ -159,7 +162,6 @@ export default function EditorPage() {
                     newLyricsLines.map((e2, i2) => (i2 == i ? e : e2)),
                   );
                 }}
-                setAutoFocus={setNowEditingLine}
               />
             );
 
