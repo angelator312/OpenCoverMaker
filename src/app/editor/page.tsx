@@ -44,7 +44,7 @@ export default function EditorPage() {
   const handleChange2 = (object_to_add: QueryType) => {
     const new_query: QueryType = { ...searchQuery, ...object_to_add };
     setSearchQuery(new_query);
-    updateSearchQuery(new_query);
+    // updateSearchQuery(new_query);
   };
   const handleChange = (
     key: string,
@@ -60,7 +60,9 @@ export default function EditorPage() {
     searchParams.get(new_lyrics_par) ?? "",
   );
   const [originalLyrics, setOriginalLyrics] = useState<string>("");
-  const [newLyricsLines, setNewLyricsLines] = useState<Array<string>>([""]);
+  const [newLyricsLines, setNewLyricsLines] = useState<Array<string>>(
+    newLyrics.split("\n"),
+  );
   const [originalLyricsLines, setOriginalLyricsLines] = useState<Array<string>>(
     [""],
   );
@@ -69,8 +71,8 @@ export default function EditorPage() {
     setOriginalLyricsLines(originalLyrics.split("\n"));
     if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
     else {
-      const org_new_lines = (originalLyrics.match(/\\n/g) || []).length;
-      const new_new_lines = (newLyrics.match(/\\n/g) || []).length;
+      const org_new_lines = originalLyricsLines.length;
+      const new_new_lines = newLyricsLines.length;
       if (new_new_lines < org_new_lines)
         setNewLyrics(newLyrics + "\n".repeat(org_new_lines - new_new_lines));
     }
@@ -82,9 +84,14 @@ export default function EditorPage() {
   }, [newLyrics]);
   return (
     <AppShellTemplate is_in_editor={true}>
-      <Button onClick={toggle_settings}>
-        {opened_settings ? "Hide" : "Show"} settings
-      </Button>
+      <Group>
+        <Button onClick={toggle_settings}>
+          {opened_settings ? "Hide" : "Show"} settings
+        </Button>
+        <Button onClick={() => updateSearchQuery(searchQuery)}>
+          Save settings
+        </Button>
+      </Group>
       <Space h="md" />
       <Collapse in={opened_settings}>
         <Group>
@@ -131,13 +138,17 @@ export default function EditorPage() {
       <Title order={3}>New lyrics</Title>
       <Space h="md" />
       <Stack>
-        {newLyrics.split("\n").map((e: string, i: number) => {
+        {newLyricsLines.map((e: string, i: number) => {
           return (
             <LineEdit
               key={i}
-              org_lyrics={originalLyricsLines[i]}
+              org_lyrics={originalLyricsLines[i] ?? ""}
               new_lyrics={e}
-              setNewLyrics={setNewLyrics}
+              setNewLyrics={(e) =>
+                setNewLyricsLines(
+                  newLyricsLines.map((e2, i2) => (i2 == i ? e : e2)),
+                )
+              }
             />
           );
         })}
