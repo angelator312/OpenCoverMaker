@@ -1,12 +1,20 @@
 import { Button, Group, Text, TextInput } from "@mantine/core";
+import React from "react";
 import { useEffect, useState } from "react";
 
 const charectersDifferenceForYellow = 3;
 const wordsDifferenceForYellow = 3;
 const charectersDifferenceForRed = 10;
 const wordsDifferenceForRed = 10;
+export let LineEdit = React.memo(LineEditComp, (prevProps, nextProps) => {
+  return (
+    !nextProps.autoFocus ||
+    (prevProps.org_lyrics === nextProps.org_lyrics &&
+      prevProps.new_lyrics === nextProps.new_lyrics)
+  );
+});
 
-export default function LineEdit({
+function LineEditComp({
   org_lyrics,
   new_lyrics,
   setNewLyrics,
