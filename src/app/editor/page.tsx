@@ -148,9 +148,11 @@ export default function EditorPage() {
                 console.log(splitL);
                 setNewLyricsLines(splitL);
               }}
-              onEnterKeyPressed={() =>
-                setNewLyricsLines(newLyricsLines.concat([""]))
-              }
+              onEnterKeyPressed={() => {
+                let tmp = newLyricsLines;
+                tmp.splice(i, 0, "");
+                setNewLyricsLines(tmp);
+              }}
               key={e + " i:" + i}
               org_lyrics={originalLyricsLines[i] ?? ""}
               new_lyrics={e}
