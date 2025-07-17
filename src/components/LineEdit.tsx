@@ -40,24 +40,22 @@ export default function LineEdit({
   useEffect(() => {
     setOriginalWordsCount(org_lyrics.split(" ").length);
     setOriginalCharectersCount(org_lyrics.length);
+    update();
   }, [org_lyrics]);
 
   useEffect(() => {
     setNewWordsCount(new_lyrics.split(" ").length);
     setNewCharectersCount(new_lyrics.length);
+    update();
   }, [new_lyrics]);
 
-  useEffect(() => {
+  const update = () => {
     setDifferenceOfCharecters(
       Math.abs(originalCharectersCount - newCharectersCount),
     );
-    setReloadsCount(reloadsCount + 1);
-  }, [originalCharectersCount, newCharectersCount]);
-
-  useEffect(() => {
     setDifferenceOfWords(Math.abs(originalWordsCount - newWordsCount));
     setReloadsCount(reloadsCount + 1);
-  }, [originalWordsCount, newWordsCount]);
+  };
 
   return (
     <Group grow>
