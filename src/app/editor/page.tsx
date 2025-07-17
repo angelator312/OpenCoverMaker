@@ -66,6 +66,7 @@ export default function EditorPage() {
   const [originalLyricsLines, setOriginalLyricsLines] = useState<Array<string>>(
     [""],
   );
+  const [reloadCount, setReloadCount] = useState<number>(0);
 
   useEffect(() => {
     setOriginalLyricsLines(originalLyrics.split("\n"));
@@ -137,7 +138,7 @@ export default function EditorPage() {
       <Space h="md" />
       <Title order={3}>New lyrics</Title>
       <Space h="md" />
-      <Stack>
+      <Stack key={"reloads:" + reloadCount}>
         {newLyricsLines.map((e: string, i: number) => {
           return (
             <LineEdit
@@ -147,13 +148,16 @@ export default function EditorPage() {
                 splitL = splitL.slice(0, i).concat(splitL.slice(i + 1));
                 console.log(splitL);
                 setNewLyricsLines(splitL);
+                setReloadCount(reloadCount + 1);
               }}
               onEnterKeyPressed={() => {
                 let tmp = newLyricsLines;
-                tmp.splice(i, 0, "");
+                tmp.splice(i + 1, 0, "");
+                console.log("newLyricsLines", tmp);
                 setNewLyricsLines(tmp);
+                setReloadCount(reloadCount + 1);
               }}
-              key={e + " i:" + i}
+              key={" i:" + i}
               org_lyrics={originalLyricsLines[i] ?? ""}
               new_lyrics={e}
               setNewLyrics={(e) => {
