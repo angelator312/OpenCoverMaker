@@ -21,16 +21,17 @@ export default function LineEdit({
   onEnterKeyPressed: () => void;
   onLastBackSpacePressed: () => void;
 }) {
-  const [differenceOfCharecters, setDifferenceOfCharecters] =
-    useState<number>(0);
-  const [differenceOfWords, setDifferenceOfWords] = useState<number>(0);
-
   const [originalCharectersCount, setOriginalCharectersCount] =
     useState<number>(0);
   const [newCharectersCount, setNewCharectersCount] = useState<number>(0);
   const [newWordsCount, setNewWordsCount] = useState<number>(0);
   const [originalWordsCount, setOriginalWordsCount] = useState<number>(0);
+  const [reloadsCount, setReloadsCount] = useState<number>(0);
 
+  const [differenceOfCharecters, setDifferenceOfCharecters] = useState<number>(
+    Math.abs(originalCharectersCount - newCharectersCount),
+  );
+  const [differenceOfWords, setDifferenceOfWords] = useState<number>(0);
   useEffect(() => {
     setOriginalWordsCount(org_lyrics.split(" ").length);
     setOriginalCharectersCount(org_lyrics.length);
@@ -44,6 +45,8 @@ export default function LineEdit({
     setDifferenceOfCharecters(
       Math.abs(originalCharectersCount - newCharectersCount),
     );
+    setReloadsCount(reloadsCount + 1);
+    // console.log("reloads:", reloadsCount);
     setDifferenceOfWords(Math.abs(originalWordsCount - newWordsCount));
   }, [originalWordsCount, newWordsCount]);
   return (
@@ -59,32 +62,34 @@ export default function LineEdit({
         onChange={(e) => setNewLyrics(e.currentTarget.value)}
         inputSize="100"
       />
-      <Text>Charecters</Text>
-      <Button
-        color={
-          differenceOfCharecters < charectersDifferenceForYellow
-            ? "green"
-            : differenceOfCharecters < charectersDifferenceForRed
-              ? "yellow"
-              : "red"
-        }
-      >
-        {" "}
-        {newCharectersCount}
-      </Button>
-      <Text>Words</Text>
-      <Button
-        color={
-          differenceOfWords < wordsDifferenceForYellow
-            ? "green"
-            : differenceOfWords < wordsDifferenceForRed
-              ? "yellow"
-              : "red"
-        }
-      >
-        {" "}
-        {newWordsCount}
-      </Button>
+      <Group key={reloadsCount}>
+        <Text>Charecters</Text>
+        <Button
+          color={
+            differenceOfCharecters < charectersDifferenceForYellow
+              ? "green"
+              : differenceOfCharecters < charectersDifferenceForRed
+                ? "yellow"
+                : "red"
+          }
+        >
+          {" "}
+          {newCharectersCount}
+        </Button>
+        <Text>Words</Text>
+        <Button
+          color={
+            differenceOfWords < wordsDifferenceForYellow
+              ? "green"
+              : differenceOfWords < wordsDifferenceForRed
+                ? "yellow"
+                : "red"
+          }
+        >
+          {" "}
+          {newWordsCount}
+        </Button>
+      </Group>
     </Group>
   );
 }
