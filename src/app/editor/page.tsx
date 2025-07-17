@@ -59,24 +59,29 @@ export default function EditorPage() {
   const [newLyrics, setNewLyrics] = useState<string>(
     searchParams.get(new_lyrics_par) ?? "",
   );
-  const [originalLyrics, setOriginalLyrics] = useState<string>("");
+  const [originalLyrics, setOriginalLyrics] = useState<string>(
+    searchParams.get(original_lyrics_par) ?? "",
+  );
   const [newLyricsLines, setNewLyricsLines] = useState<Array<string>>(
     newLyrics.split("\n"),
   );
   const [originalLyricsLines, setOriginalLyricsLines] = useState<Array<string>>(
-    [""],
+    originalLyrics.split("\n"),
   );
   const [reloadCount, setReloadCount] = useState<number>(0);
   const [nowEditingLine, setNowEditingLine] = useState<number>(0);
 
   useEffect(() => {
     setOriginalLyricsLines(originalLyrics.split("\n"));
-    if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
+    if (newLyrics.trim().length == 0)
+      setNewLyricsLines(originalLyrics.split("\n"));
     else {
       const org_new_lines = originalLyricsLines.length;
       const new_new_lines = newLyricsLines.length;
       if (new_new_lines < org_new_lines)
-        setNewLyrics(newLyrics + "\n".repeat(org_new_lines - new_new_lines));
+        setNewLyricsLines(
+          newLyrics.split("\n").concat(Array(org_new_lines - new_new_lines)),
+        );
     }
   }, [originalLyrics]);
 
