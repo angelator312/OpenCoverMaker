@@ -1,6 +1,7 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
 import LineEdit from "@/components/LineEdit";
+import SquareBracketLineEdit from "@/components/SquareBracketLineEdit";
 import {
   Button,
   Collapse,
@@ -146,6 +147,21 @@ export default function EditorPage() {
       <Space h="md" />
       <Stack key={"reloads:" + reloadCount}>
         {newLyricsLines.map((e: string, i: number) => {
+          if (e.startsWith("["))
+            return (
+              <SquareBracketLineEdit
+                key={i}
+                new_lyrics={e}
+                setNewLyrics={(e) => {
+                  setNowEditingLine(i);
+                  setNewLyricsLines(
+                    newLyricsLines.map((e2, i2) => (i2 == i ? e : e2)),
+                  );
+                }}
+                setAutoFocus={setNowEditingLine}
+              />
+            );
+
           return (
             <LineEdit
               autoFocus={i == nowEditingLine}
