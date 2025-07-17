@@ -55,7 +55,7 @@ export default function EditorPage() {
     handleChange2({ [key]: e.currentTarget.value });
   };
 
-  const [opened_settings, { toggle: toggle_settings }] = useDisclosure(true);
+  const [opened_settings, { toggle: toggle_settings }] = useDisclosure(false);
   const [opened_lyrics, { toggle: toggle_lyrics }] = useDisclosure(true);
   const [newLyrics, setNewLyrics] = useState<string>(
     searchParams.get(new_lyrics_par) ?? "",
@@ -87,8 +87,9 @@ export default function EditorPage() {
   }, [originalLyrics]);
 
   useEffect(() => {
-    setNewLyrics(newLyricsLines.join("\n"));
-    handleChange2({ [new_lyrics_par]: newLyrics });
+    const tmp = newLyricsLines.join("\n");
+    setNewLyrics(tmp);
+    handleChange2({ [new_lyrics_par]: tmp });
   }, [newLyricsLines]);
   return (
     <AppShellTemplate is_in_editor={true}>

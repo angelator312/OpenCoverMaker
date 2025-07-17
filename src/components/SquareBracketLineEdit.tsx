@@ -53,11 +53,13 @@ export default function SquareBracketLineEdit({
   const [value, setValue] = useState("");
   useEffect(() => {
     setType(typeFromString(new_lyrics));
+  }, [new_lyrics]);
+  useEffect(() => {
     let match = regexes[type].exec(new_lyrics);
     if (!match) return;
     setValue(match.slice(1)[0]);
     console.log(type, ":", value);
-  }, [new_lyrics, type]);
+  }, [new_lyrics]);
   useEffect(() => {
     setNewLyrics(`[${names[type]}:${value}]`);
   }, [type, value]);
@@ -65,7 +67,7 @@ export default function SquareBracketLineEdit({
     <Group>
       <Text>[</Text>
       <Select
-        defaultValue={names[type]}
+        value={names[type]}
         data={names}
         onChange={(e) => setType(typeFromName(e ?? ""))}
         // inputSize="100"
