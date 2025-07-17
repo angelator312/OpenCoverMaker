@@ -1,5 +1,5 @@
 import { Button, Group, Text, TextInput } from "@mantine/core";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useEffect, useState } from "react";
 
 const charectersDifferenceForYellow = 3;
@@ -52,17 +52,19 @@ function LineEditComp({
     setReloadsCount(reloadsCount + 1);
   }, [new_lyrics]);
 
+  const absoluteDifferenceOfCharecters = useMemo(
+    () => Math.abs(originalCharectersCount - newCharectersCount),
+    [differenceOfCharecters],
+  );
+  const absoluteDifferenceOfWords = useMemo(
+    () => Math.abs(originalWordsCount - newWordsCount),
+    [originalWordsCount, newWordsCount],
+  );
+
   const update = useCallback(() => {
-    setDifferenceOfCharecters(
-      Math.abs(originalCharectersCount - newCharectersCount),
-    );
-    setDifferenceOfWords(Math.abs(originalWordsCount - newWordsCount));
-  }, [
-    originalCharectersCount,
-    newCharectersCount,
-    originalWordsCount,
-    newWordsCount,
-  ]);
+    setDifferenceOfCharecters(absoluteDifferenceOfCharecters);
+    setDifferenceOfWords(absoluteDifferenceOfWords);
+  }, [absoluteDifferenceOfCharecters, absoluteDifferenceOfWords]);
 
   return (
     <Group grow>
