@@ -65,7 +65,7 @@ export default function SquareBracketLineEdit({
     <Group>
       <Text>[</Text>
       <Select
-        value={names[type]}
+        defaultValue={names[type]}
         data={names}
         onChange={(e) => setType(typeFromName(e ?? ""))}
         // inputSize="100"
