@@ -141,14 +141,15 @@ export default function EditorPage() {
         {newLyricsLines.map((e: string, i: number) => {
           return (
             <LineEdit
+              onEnterKeyPressed={() => setNewLyrics(newLyrics + "\n")}
               key={i}
               org_lyrics={originalLyricsLines[i] ?? ""}
               new_lyrics={e}
-              setNewLyrics={(e) =>
+              setNewLyrics={(e) => {
                 setNewLyricsLines(
                   newLyricsLines.map((e2, i2) => (i2 == i ? e : e2)),
-                )
-              }
+                );
+              }}
             />
           );
         })}
