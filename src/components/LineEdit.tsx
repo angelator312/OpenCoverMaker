@@ -7,9 +7,11 @@ export default function LineEdit({
   setNewLyrics,
   onEnterKeyPressed,
   onLastBackSpacePressed,
+  autoFocus = false,
 }: {
   org_lyrics: string;
   new_lyrics: string;
+  autoFocus?: boolean;
   setNewLyrics: (e: string) => void;
   onEnterKeyPressed: () => void;
   onLastBackSpacePressed: () => void;
@@ -22,7 +24,7 @@ export default function LineEdit({
   return (
     <Group>
       <TextInput
-        autoFocus
+        autoFocus={autoFocus}
         onKeyDown={(e) => {
           if (e.key.startsWith("Enter")) onEnterKeyPressed();
           if (e.key.startsWith("Backspace") && new_lyrics.length == 0)

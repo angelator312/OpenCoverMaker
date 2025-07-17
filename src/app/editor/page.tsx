@@ -67,6 +67,7 @@ export default function EditorPage() {
     [""],
   );
   const [reloadCount, setReloadCount] = useState<number>(0);
+  const [nowEditingLine, setNowEditingLine] = useState<number>(0);
 
   useEffect(() => {
     setOriginalLyricsLines(originalLyrics.split("\n"));
@@ -142,6 +143,7 @@ export default function EditorPage() {
         {newLyricsLines.map((e: string, i: number) => {
           return (
             <LineEdit
+              autoFocus={i == nowEditingLine}
               onLastBackSpacePressed={() => {
                 let splitL = newLyricsLines;
                 console.log(splitL, ":");
@@ -149,6 +151,7 @@ export default function EditorPage() {
                 console.log(splitL);
                 setNewLyricsLines(splitL);
                 setReloadCount(reloadCount + 1);
+                setNowEditingLine(Math.max(i - 1, 0));
               }}
               onEnterKeyPressed={() => {
                 let tmp = newLyricsLines;
@@ -156,11 +159,13 @@ export default function EditorPage() {
                 console.log("newLyricsLines", tmp);
                 setNewLyricsLines(tmp);
                 setReloadCount(reloadCount + 1);
+                setNowEditingLine(Math.max(i + 1, 0));
               }}
               key={" i:" + i}
               org_lyrics={originalLyricsLines[i] ?? ""}
               new_lyrics={e}
               setNewLyrics={(e) => {
+                setNowEditingLine(i);
                 setNewLyricsLines(
                   newLyricsLines.map((e2, i2) => (i2 == i ? e : e2)),
                 );
