@@ -30,7 +30,7 @@ export default function LineEdit({
   );
   const [newWordsCount, setNewWordsCount] = useState<number>(0);
   const [originalWordsCount, setOriginalWordsCount] = useState<number>(0);
-  const [reloadsCount, setReloadsCount] = useState<number>(0);
+  const [reloadsCount, setReloadsCount] = useState<number>(1);
 
   const [differenceOfCharecters, setDifferenceOfCharecters] = useState<number>(
     Math.abs(originalCharectersCount - newCharectersCount),
@@ -76,33 +76,37 @@ export default function LineEdit({
         variant={autoFocus ? "default" : "unstyled"}
         // inputSize="100"
       />
-      <Group key={reloadsCount}>
+      <Group>
         <Text>Charecters</Text>
-        <Button
-          color={
-            differenceOfCharecters < charectersDifferenceForYellow
-              ? "green"
-              : differenceOfCharecters < charectersDifferenceForRed
-                ? "yellow"
-                : "red"
-          }
-        >
-          {" "}
-          {newCharectersCount}
-        </Button>
+        <Group key={reloadsCount}>
+          <Button
+            color={
+              differenceOfCharecters < charectersDifferenceForYellow
+                ? "green"
+                : differenceOfCharecters < charectersDifferenceForRed
+                  ? "yellow"
+                  : "red"
+            }
+          >
+            {" "}
+            {newCharectersCount}
+          </Button>
+        </Group>
         <Text>Words</Text>
-        <Button
-          color={
-            differenceOfWords < wordsDifferenceForYellow
-              ? "green"
-              : differenceOfWords < wordsDifferenceForRed
-                ? "yellow"
-                : "red"
-          }
-        >
-          {" "}
-          {newWordsCount}
-        </Button>
+        <Group key={reloadsCount * 10}>
+          <Button
+            color={
+              differenceOfWords < wordsDifferenceForYellow
+                ? "green"
+                : differenceOfWords < wordsDifferenceForRed
+                  ? "yellow"
+                  : "red"
+            }
+          >
+            {" "}
+            {newWordsCount}
+          </Button>
+        </Group>
       </Group>
     </Group>
   );
