@@ -58,7 +58,7 @@ export default function LineEdit({
     <Group>
       <TextInput
         autoFocus={autoFocus}
-        onKeyDown={(e) => {
+        onKeyUp={(e) => {
           if (e.key.startsWith("Enter")) onEnterKeyPressed();
           if (e.key.startsWith("Backspace")) {
             if (new_lyrics.length == 0) onLastBackSpacePressed();
