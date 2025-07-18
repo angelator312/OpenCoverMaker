@@ -1,11 +1,12 @@
 import { TypeEnum } from "@/data/enums";
 import { selectOptionsForSquareBrackets } from "@/data/names";
+import { ILineEditsGroup, WithRequired } from "@/data/types";
 import { Group, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 const regex_for_verse = /\[Verse:(.*)\]/g;
-const regex_for_chorus = /\[Chorus()\]/g;
+const regex_for_chorus = /\[Chorus:(.*)\]/g;
 const regex_for_bridge = /\[Bridge:(.*)\]/g;
-const regex_for_prechorus = /\[Pre-chorus (\d)\]/g;
+const regex_for_prechorus = /\[Pre-chorus:(.*)\]/g;
 const regex_for_intro = /\[Intro ()\]/g;
 const regex_for_outro = /\[Outro ()\]/g;
 const regex_for_tag = /\[Tag:(.*)\]/g;
@@ -22,40 +23,38 @@ const regexes = [
 ];
 
 export default function SquareBracketLineEdit({
-  new_lyrics,
-  setNewLyrics,
+  lineEditGroup,
   autoFocus = false,
+  setLineEditsGroup,
 }: {
-  new_lyrics: string;
   autoFocus?: boolean;
-  setNewLyrics: (e: string) => void;
+  lineEditGroup: ILineEditsGroup;
+  setLineEditsGroup: (group: ILineEditsGroup) => void;
 }) {
-  const [type, setType] = useState(typeFromString(new_lyrics));
-  const [value, setValue] = useState("");
-  useEffect(() => {
-    setType(typeFromString(new_lyrics));
-  }, [new_lyrics]);
-  useEffect(() => {
-    let match = regexes[type].exec(new_lyrics);
-    if (!match) return;
-    setValue(match.slice(1)[0]);
-  }, [new_lyrics, type]);
-  useEffect(() => {
-    setNewLyrics(`[${selectOptionsForSquareBrackets[type]}:${value}]`);
-  }, [type, value]);
+  // const [value, setValue] = useState("");
   return (
     <Group>
       <Select
-        value={selectOptionsForSquareBrackets[type]}
+        value={selectOptionsForSquareBrackets[lineEditGroup.type]}
         data={selectOptionsForSquareBrackets}
-        onChange={(e) => setType(typeFromName(e ?? ""))}
+        onChange={(e) => {
+          const type = typeFromName(e ?? "");
+          setLineEditsGroup({ ...lineEditGroup, type });
+        }}
         // inputSize="100"
       />
       <Text>:</Text>
       <TextInput
         autoFocus={autoFocus}
-        value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
+        value={lineEditGroup.args[0]}
+        onChange={(e) => {
+          const new_args = lineEditGroup.args;
+          new_args[0] = e.currentTarget.value;
+          setLineEditsGroup({
+            ...lineEditGroup,
+            args: new_args,
+          });
+        }}
         // inputSize="100"
       />
     </Group>
@@ -73,8 +72,53 @@ export function typeFromString(str: string) {
   if (str.match(regex_for_comment)) return TypeEnum.Comment;
   return TypeEnum.Verse;
 }
+
+function regexFromType(type: TypeEnum) {
+  switch (type) {
+    case TypeEnum.Verse:
+      return regex_for_verse;
+    case TypeEnum.Chorus:
+      return regex_for_chorus;
+    case TypeEnum.Bridge:
+      return regex_for_bridge;
+    case TypeEnum.Prechorus:
+      return regex_for_prechorus;
+    case TypeEnum.Intro:
+      return regex_for_intro;
+    case TypeEnum.Outro:
+      return regex_for_outro;
+    case TypeEnum.Tag:
+      return regex_for_tag;
+    case TypeEnum.Comment:
+      return regex_for_comment;
+    default:
+      return regex_for_verse;
+  }
+}
+
 function typeFromName(name: string) {
   if (name.startsWith("[")) name = name.slice(1);
   if (name.endsWith("]")) name = name.slice(0, -1);
   return selectOptionsForSquareBrackets.indexOf(name);
+}
+
+export function typeAndArgsToString(
+  lineEditGroup: WithRequired<Partial<ILineEditsGroup>, "args" | "type">,
+) {
+  const name = selectOptionsForSquareBrackets[lineEditGroup.type];
+  return `[${name}:${lineEditGroup.args.join(",")}]`;
+}
+
+export function partialLineEditFromStringAndType(
+  line: string,
+  type: TypeEnum,
+): WithRequired<Partial<ILineEditsGroup>, "args"> {
+  let args1 = line.match(regexFromType(type));
+  if (!args1) return { args: ["Error"] };
+  let args2: string[] = args1.map((arg) => arg.trim());
+  let args: ILineEditsGroup["args"] =
+    type === TypeEnum.Verse ? [parseInt(args2[0]), args2[1]] : args2;
+  return {
+    args: args,
+  };
 }

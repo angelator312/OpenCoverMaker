@@ -1,62 +1,57 @@
 import { TypeEnum } from "./enums";
 
-export type ILineEditsGroup =
-  | IVerseLineEditsGroup
-  | IChorusLineEditsGroup
-  | IBridgeLineEditsGroup
-  | ICommentLineEditsGroup
-  | IIntroLineEditsGroup
-  | IOutroLineEditsGroup
-  | IPrechorusLineEditsGroup
-  | ITagLineEditsGroup
-  | IVerseLineEditsGroup;
-
-interface IBaseLineEditsGroup {
+export interface ILineEditsGroup {
   originalLyrics: string;
   newLyrics: string;
   type: TypeEnum;
-  args: any;
+  args:
+    | ArgsOnVerse
+    | ArgsOnChorus
+    | []
+    | ArgsOnPrechorus
+    | ArgsOnTag
+    | ArgsOnComment;
 }
 
-interface IVerseLineEditsGroup extends IBaseLineEditsGroup {
-  type: TypeEnum.Verse;
-  args: ArgsOnVerse;
-}
+// interface IVerseLineEditsGroup extends IBaseLineEditsGroup {
+//   // type: TypeEnum.Verse;
+//   args: ArgsOnVerse;
+// }
 
-interface IChorusLineEditsGroup extends IBaseLineEditsGroup {
-  type: TypeEnum.Chorus;
-  args: ArgsOnChorus;
-}
+// interface IChorusLineEditsGroup extends IBaseLineEditsGroup {
+//   // type: TypeEnum.Chorus;
+//   args: ArgsOnChorus;
+// }
 
-interface IBridgeLineEditsGroup extends IBaseLineEditsGroup {
-  type: TypeEnum.Bridge;
-  args: ArgsOnBridge;
-}
+// interface IBridgeLineEditsGroup extends IBaseLineEditsGroup {
+//   // type: TypeEnum.Bridge;
+//   args: ArgsOnBridge;
+// }
 
-interface IPrechorusLineEditsGroup extends IBaseLineEditsGroup {
-  type: TypeEnum.Prechorus;
-  args: ArgsOnPrechorus;
-}
+// interface IPrechorusLineEditsGroup extends IBaseLineEditsGroup {
+//   // type: TypeEnum.Prechorus;
+//   args: ArgsOnPrechorus;
+// }
 
-interface IIntroLineEditsGroup extends IBaseLineEditsGroup {
-  type: TypeEnum.Intro;
-  args: ArgsOnIntro;
-}
+// interface IIntroLineEditsGroup extends IBaseLineEditsGroup {
+//   // type: TypeEnum.Intro;
+//   args: ArgsOnIntro;
+// }
 
-interface IOutroLineEditsGroup extends IBaseLineEditsGroup {
-  type: TypeEnum.Outro;
-  args: ArgsOnOutro;
-}
+// interface IOutroLineEditsGroup extends IBaseLineEditsGroup {
+//   // type: TypeEnum.Outro;
+//   args: ArgsOnOutro;
+// }
 
-interface ITagLineEditsGroup extends IBaseLineEditsGroup {
-  type: TypeEnum.Tag;
-  args: ArgsOnTag;
-}
+// interface ITagLineEditsGroup extends IBaseLineEditsGroup {
+//   // type: TypeEnum.Tag;
+//   args: ArgsOnTag;
+// }
 
-interface ICommentLineEditsGroup extends IBaseLineEditsGroup {
-  type: TypeEnum.Comment;
-  args: ArgsOnComment;
-}
+// interface ICommentLineEditsGroup extends IBaseLineEditsGroup {
+//   // type: TypeEnum.Comment;
+//   args: ArgsOnComment;
+// }
 type ArgsOnVerse = [number, string];
 type ArgsOnChorus = [number, string];
 type ArgsOnBridge = [];
@@ -64,6 +59,26 @@ type ArgsOnPrechorus = [number, string];
 type ArgsOnIntro = [];
 type ArgsOnOutro = [];
 // [tag name]
-type ArgsOnTag = [string];
+type ArgsOnTag = [string] | string[];
 // [comment]
 type ArgsOnComment = [string];
+
+export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
+
+// export type ArgsFromTypeEnum<T> =
+// T extends TypeEnum.Verse?ArgsOnVerse:
+// (T extends TypeEnum.Chorus?ArgsOnChorus:
+//   (T extends TypeEnum.Bridge?ArgsOnBridge:
+//     (T extends TypeEnum.Prechorus?ArgsOnPrechorus:
+//       (T extends TypeEnum.Intro?ArgsOnIntro:
+//         (T extends TypeEnum.Outro?ArgsOnOutro:
+//           (T extends TypeEnum.Tag?ArgsOnTag:
+//             (T extends TypeEnum.Comment?ArgsOnComment:
+//             never
+//             )
+//           )
+//         )
+//       )
+//     )
+//   )
+// )

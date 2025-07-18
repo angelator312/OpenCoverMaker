@@ -2,7 +2,11 @@
 import AppShellTemplate from "@/components/AppShellTemplate";
 import { LineEdit } from "@/components/LineEdit";
 import LineEditGroup from "@/components/LineEditGroup";
-import SquareBracketLineEdit from "@/components/SquareBracketLineEdit";
+import SquareBracketLineEdit, {
+  partialLineEditFromStringAndType,
+  typeAndArgsToString,
+  typeFromString,
+} from "@/components/SquareBracketLineEdit";
 import { selectOptionsForSquareBrackets } from "@/data/names";
 import { ILineEditsGroup } from "@/data/types";
 import {
@@ -47,12 +51,15 @@ function fromLinesToLineEditGroups(
     const newLine = newLines[ptr_new];
     if (newLine.trim().length === 0 && originalLine.trim().length === 0)
       continue;
-    if (newLine.startsWith("["))
+    if (newLine.startsWith("[")) {
+      const type = typeFromString(newLine);
       lineEditGroups.push({
         originalLyrics: originalLines[++ptr_org] ?? "",
         newLyrics: newLines[++ptr_new],
-        squareBracketLine: newLine,
+        type,
+        args: partialLineEditFromStringAndType(newLine, type).args,
       });
+    }
   }
   console.log("linegroups:", lineEditGroups);
   return lineEditGroups;
@@ -113,7 +120,7 @@ export default function EditorPage() {
   const updateNewLyrics = useCallback(() => {
     //TODO:Make sure the new lyrics are with valid [] format
     const tmp: string = lineEditGroups
-      .map((group) => group.squareBracketLine + group.originalLyrics)
+      .map((group) => typeAndArgsToString(group) + group.originalLyrics)
       .join("");
     console.log("lyrics:", tmp);
     setNewLyrics(tmp);

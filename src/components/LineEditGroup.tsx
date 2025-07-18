@@ -25,13 +25,8 @@ function LineEditGroup({
     <>
       <Group>
         <SquareBracketLineEdit
-          new_lyrics={lineEditGroup.squareBracketLine}
-          setNewLyrics={(e) => {
-            setLineEditGroupChange({
-              ...lineEditGroup,
-              squareBracketLine: e,
-            });
-          }}
+          lineEditGroup={lineEditGroup}
+          setLineEditsGroup={setLineEditGroupChange}
         />
         <Button onClick={() => setIsNotCollapsed(!isNotCollapsed)}>
           {isNotCollapsed ? "^" : "˅"}
