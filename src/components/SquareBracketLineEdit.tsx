@@ -3,7 +3,7 @@ import { selectOptionsForSquareBrackets } from "@/data/names";
 import { Group, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 const regex_for_verse = /\[Verse:(.*)\]/g;
-const regex_for_chorus = /\[Chorus\]/g;
+const regex_for_chorus = /\[Chorus()\]/g;
 const regex_for_bridge = /\[Bridge:(.*)\]/g;
 const regex_for_prechorus = /\[Pre-chorus (\d)\]/g;
 const regex_for_intro = /\[Intro ()\]/g;
@@ -74,5 +74,7 @@ export function typeFromString(str: string) {
   return TypeEnum.Verse;
 }
 function typeFromName(name: string) {
+  if (name.startsWith("[")) name = name.slice(1);
+  if (name.endsWith("]")) name = name.slice(0, -1);
   return selectOptionsForSquareBrackets.indexOf(name);
 }
