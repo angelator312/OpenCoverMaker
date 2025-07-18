@@ -22,6 +22,8 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useAtom } from "jotai";
+import { lineEditGroupAtom } from "@/data/atoms";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 
@@ -107,7 +109,7 @@ export default function EditorPage() {
   const [originalLyrics, setOriginalLyrics] = useState<string>(
     searchParams.get(original_lyrics_par) ?? "",
   );
-  const [lineEditGroups, setLineEditGroups] = useState<ILineEditsGroup[]>([]);
+  const [lineEditGroups, setLineEditGroups] = useAtom(lineEditGroupAtom);
   const [reloadCount, setReloadCount] = useState<number>(0);
 
   useEffect(() => {
@@ -193,14 +195,15 @@ export default function EditorPage() {
           return (
             <LineEditGroup
               key={i}
-              lineEditGroup={lineEditGroups[i]}
-              setLineEditGroupChange={(newGroup) => {
-                setLineEditGroups((prev) => {
-                  const newGroups = [...prev];
-                  newGroups[i] = newGroup;
-                  return newGroups;
-                });
-              }}
+              idx={i}
+              // lineEditGroup={lineEditGroups[i]}
+              // setLineEditGroupChange={(newGroup) => {
+              //   setLineEditGroups((prev) => {
+              //     const newGroups = [...prev];
+              //     newGroups[i] = newGroup;
+              //     return newGroups;
+              //   });
+              // }}
             />
           );
         })}
