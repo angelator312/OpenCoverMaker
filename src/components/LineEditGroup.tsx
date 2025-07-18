@@ -2,14 +2,14 @@ import { Button, Group } from "@mantine/core";
 import React, { useMemo, useState } from "react";
 import SquareBracketLineEdit from "./SquareBracketLineEdit";
 import CollapsableLineEditSection from "./CollapsableLineEditSection";
-import { I_LineEditsGroup } from "@/data/types";
+import { ILineEditsGroup } from "@/data/types";
 
 function LineEditGroup({
   lineEditGroup,
   setLineEditGroupChange,
 }: {
-  lineEditGroup: I_LineEditsGroup;
-  setLineEditGroupChange: (newGroup: I_LineEditsGroup) => void;
+  lineEditGroup: ILineEditsGroup;
+  setLineEditGroupChange: (newGroup: ILineEditsGroup) => void;
 }) {
   const [isNotCollapsed, setIsNotCollapsed] = useState(false);
 

@@ -4,7 +4,7 @@ import { LineEdit } from "@/components/LineEdit";
 import LineEditGroup from "@/components/LineEditGroup";
 import SquareBracketLineEdit from "@/components/SquareBracketLineEdit";
 import { selectOptionsForSquareBrackets } from "@/data/names";
-import { I_LineEditsGroup } from "@/data/types";
+import { ILineEditsGroup } from "@/data/types";
 import {
   Button,
   Collapse,
@@ -32,11 +32,11 @@ const regexForSquareBrackets = /^(\[.*\])$/gm;
 function fromLinesToLineEditGroups(
   originalLyrics: string,
   newLyrics: string,
-): I_LineEditsGroup[] {
+): ILineEditsGroup[] {
   const originalLines = originalLyrics.trim().split(regexForSquareBrackets);
   const newLines = newLyrics.trim().split(regexForSquareBrackets);
 
-  const lineEditGroups: I_LineEditsGroup[] = [];
+  const lineEditGroups: ILineEditsGroup[] = [];
   // console.log("originalLines:", originalLines);
   // console.log("newLines:", newLines);
 
@@ -98,7 +98,7 @@ export default function EditorPage() {
   const [originalLyrics, setOriginalLyrics] = useState<string>(
     searchParams.get(original_lyrics_par) ?? "",
   );
-  const [lineEditGroups, setLineEditGroups] = useState<I_LineEditsGroup[]>(
+  const [lineEditGroups, setLineEditGroups] = useState<ILineEditsGroup[]>(
     fromLinesToLineEditGroups(originalLyrics, newLyrics),
   );
   const [reloadCount, setReloadCount] = useState<number>(0);
@@ -180,7 +180,7 @@ export default function EditorPage() {
       <Title order={3}>New lyrics</Title>
       <Space h="md" />
       <Stack key={"reloads:" + reloadCount}>
-        {lineEditGroups.map((e: I_LineEditsGroup, i: number) => {
+        {lineEditGroups.map((e: ILineEditsGroup, i: number) => {
           return (
             <LineEditGroup
               key={i}
