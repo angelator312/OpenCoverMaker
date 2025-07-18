@@ -25,7 +25,7 @@ const url_lyrics_par = "url_for_lyrics";
 const original_lyrics_par = "org_lyrics";
 const new_lyrics_par = "new_lyrics";
 
-const regexForSquareBrackets = /^(\[.*?):(.*\])$/gm;
+const regexForSquareBrackets = /^(\[.*\])$/gm;
 
 function fromLinesToLineEditGroups(
   originalLyrics: string,
@@ -35,18 +35,24 @@ function fromLinesToLineEditGroups(
   const newLines = newLyrics.trim().split(regexForSquareBrackets);
 
   const lineEditGroups: I_LineEditsGroup[] = [];
-  console.log("originalLines:", originalLines);
-  console.log("newLines:", newLines);
-  if (!originalLines[0].startsWith("[")) {
-    originalLines.splice(0, 0, "[:]");
+  // console.log("originalLines:", originalLines);
+  // console.log("newLines:", newLines);
+
+  let ptr_new = 0,
+    ptr_org = 0;
+  for (; ptr_new < newLines.length; ptr_new++, ptr_org++) {
+    const originalLine = originalLines[ptr_org];
+    const newLine = newLines[ptr_new];
+    if (newLine.trim().length === 0 && originalLine.trim().length === 0)
+      continue;
+    if (newLine.startsWith("["))
+      lineEditGroups.push({
+        originalLyrics: originalLines[++ptr_org] ?? "",
+        newLyrics: newLines[++ptr_new],
+        squareBracketLine: newLine,
+      });
   }
-
-  // lineEditGroups.push({
-  //   originalLyrics: originalLine,
-  //   newLyrics: newLine,
-  //   squareBracketLine: `[${i + 1}]`,
-  // });
-
+  console.log("linegroups:", lineEditGroups);
   return lineEditGroups;
 }
 
