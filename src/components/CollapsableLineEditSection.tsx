@@ -34,7 +34,11 @@ function CollapsableLineEditSection({
               });
             }}
             onEnterKeyPressed={function (): void {
-              throw new Error("Function not implemented.");
+              setNewLines((prevLines) => {
+                const newLines = [...prevLines];
+                // newLines.splice(i,0,0)
+                return newLines;
+              });
             }}
             onLastBackSpacePressed={function (): void {
               throw new Error("Function not implemented.");
