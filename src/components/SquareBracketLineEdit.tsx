@@ -95,11 +95,12 @@ export function partialLineEditFromStringAndType(
   line: string,
   type: TypeEnum,
 ): WithRequired<Partial<ILineEditsGroup>, "args"> {
-  let args1 = line.match(regexFromType(type));
+  let args1 = regexFromType(type).exec(line);
   if (!args1) return { args: ["Error"] };
   let args2: string[] = args1
     .map((arg) => arg.trim())
-    .slice(1 + Number(isTypeHavingSecondArgument(type)));
+    .slice(1, 2 + Number(isTypeHavingSecondArgument(type)));
+  console.log("args2:", args2);
   let args: ILineEditsGroup["args"] =
     type === TypeEnum.Verse ? [parseInt(args2[0]), args2[1]] : args2;
   return {

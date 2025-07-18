@@ -111,17 +111,16 @@ export default function EditorPage() {
   const [originalLyrics, setOriginalLyrics] = useState<string>(
     searchParams.get(original_lyrics_par) ?? "",
   );
-  const [lineEditGroups, setLineEditGroups] = useState<ILineEditsGroup[]>(
-    fromLinesToLineEditGroups(originalLyrics, newLyrics),
-  );
+  const [lineEditGroups, setLineEditGroups] = useState<ILineEditsGroup[]>([]);
   const [reloadCount, setReloadCount] = useState<number>(0);
 
   useEffect(() => {
     if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
   }, [originalLyrics]);
   useEffect(() => {
-    // setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
-  }, [originalLyrics, newLyrics]);
+    console.log("newLyrics");
+    setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
+  }, []);
   //TODO:Optimize the following
   const updateNewLyrics = useCallback(() => {
     //TODO:Make sure the new lyrics are with valid [] format
@@ -140,7 +139,7 @@ export default function EditorPage() {
         </Button>
         <Button
           onClick={() => {
-            // updateNewLyrics();
+            updateNewLyrics();
             updateSearchQuery(searchQuery);
           }}
         >
