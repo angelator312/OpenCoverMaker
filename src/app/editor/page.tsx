@@ -1,7 +1,9 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
 import { LineEdit } from "@/components/LineEdit";
+import LineEditGroup from "@/components/LineEditGroup";
 import SquareBracketLineEdit from "@/components/SquareBracketLineEdit";
+import { I_LineEditsGroup } from "@/data/types";
 import {
   Button,
   Collapse,
@@ -23,7 +25,30 @@ const url_lyrics_par = "url_for_lyrics";
 const original_lyrics_par = "org_lyrics";
 const new_lyrics_par = "new_lyrics";
 
-const regexForSquareBrackets = /\[(.*?):(.*)/;
+const regexForSquareBrackets = /^(\[.*?):(.*\])$/gm;
+
+function fromLinesToLineEditGroups(
+  originalLyrics: string,
+  newLyrics: string,
+): I_LineEditsGroup[] {
+  const originalLines = originalLyrics.trim().split(regexForSquareBrackets);
+  const newLines = newLyrics.trim().split(regexForSquareBrackets);
+
+  const lineEditGroups: I_LineEditsGroup[] = [];
+
+  for (let i = 0; i < Math.max(originalLines.length, newLines.length); i++) {
+    const originalLine = originalLines[i] ?? "";
+    const newLine = newLines[i] ?? "";
+
+    lineEditGroups.push({
+      originalLyrics: originalLine,
+      newLyrics: newLine,
+      squareBracketLine: `[${i + 1}]`,
+    });
+  }
+
+  return lineEditGroups;
+}
 
 export default function EditorPage() {
   const [searchQuery, setSearchQuery] = useState<QueryType>({});
@@ -65,34 +90,25 @@ export default function EditorPage() {
   const [originalLyrics, setOriginalLyrics] = useState<string>(
     searchParams.get(original_lyrics_par) ?? "",
   );
-  const [newLyricsLines, setNewLyricsLines] = useState<Array<string>>(
-    newLyrics.split("\n"),
-  );
-  const [originalLyricsLines, setOriginalLyricsLines] = useState<Array<string>>(
-    originalLyrics.split("\n"),
+  const [lineEditGroups, setLineEditGroups] = useState<I_LineEditsGroup[]>(
+    fromLinesToLineEditGroups(originalLyrics, newLyrics),
   );
   const [reloadCount, setReloadCount] = useState<number>(0);
   const [nowEditingLine, setNowEditingLine] = useState<number>(0);
 
   useEffect(() => {
-    setOriginalLyricsLines(originalLyrics.split("\n"));
-    if (newLyrics.trim().length == 0)
-      setNewLyricsLines(originalLyrics.split("\n"));
-    else {
-      const org_new_lines = originalLyricsLines.length;
-      const new_new_lines = newLyricsLines.length;
-      if (new_new_lines < org_new_lines)
-        setNewLyricsLines(
-          newLyrics.split("\n").concat(Array(org_new_lines - new_new_lines)),
-        );
-    }
+    if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
   }, [originalLyrics]);
+  useEffect(() => {
+    setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
+  }, [originalLyrics, newLyrics]);
   //TODO:Optimize the following
-  const updateNewLyrics = useCallback(() => {
-    const tmp = newLyricsLines.join("\n");
-    setNewLyrics(tmp);
-    handleChange2({ [new_lyrics_par]: tmp });
-  }, [newLyricsLines]);
+  // const updateNewLyrics = useCallback(() => {
+  //   //TODO:Make sure the new lyrics are with valid [] format
+  //   const tmp = newLyricsLines.join("[:]");
+  //   setNewLyrics(tmp);
+  //   handleChange2({ [new_lyrics_par]: tmp });
+  // }, [newLyricsLines]);
   // useEffect(() => {
   //   updateNewLyrics();
   // }, [nowEditingLine]);
@@ -104,7 +120,7 @@ export default function EditorPage() {
         </Button>
         <Button
           onClick={() => {
-            updateNewLyrics();
+            // updateNewLyrics();
             updateSearchQuery(searchQuery);
           }}
         >
@@ -157,48 +173,13 @@ export default function EditorPage() {
       <Title order={3}>New lyrics</Title>
       <Space h="md" />
       <Stack key={"reloads:" + reloadCount}>
-        {newLyricsLines.map((e: string, i: number) => {
-          if (e.startsWith("["))
-            return (
-              <SquareBracketLineEdit
-                key={i}
-                new_lyrics={e}
-                setNewLyrics={(e) => {
-                  setNowEditingLine(i);
-                  setNewLyricsLines(
-                    newLyricsLines.map((e2, i2) => (i2 == i ? e : e2)),
-                  );
-                }}
-              />
-            );
-
+        {lineEditGroups.map((e: I_LineEditsGroup, i: number) => {
+          const [lineEdits, setLineEdits] = useState<I_LineEditsGroup>(e);
           return (
-            <LineEdit
-              onFocus={() => setNowEditingLine(i)}
-              autoFocus={i == nowEditingLine}
-              onLastBackSpacePressed={() => {
-                let splitL = newLyricsLines;
-                // console.log(splitL, ":");
-                splitL = splitL.slice(0, i).concat(splitL.slice(i + 1));
-                // console.log(splitL);
-                setNewLyricsLines(splitL);
-                setReloadCount(reloadCount + 1);
-              }}
-              onEnterKeyPressed={() => {
-                let tmp = newLyricsLines;
-                tmp.splice(i + 1, 0, "");
-                console.log("newLyricsLines", tmp);
-                setNewLyricsLines(tmp);
-                setReloadCount(reloadCount + 1);
-              }}
-              key={" i:" + i}
-              org_lyrics={originalLyricsLines[i] ?? ""}
-              new_lyrics={e}
-              setNewLyrics={(e) => {
-                setNewLyricsLines(
-                  newLyricsLines.map((e2, i2) => (i2 == i ? e : e2)),
-                );
-              }}
+            <LineEditGroup
+              key={i}
+              lineEditGroup={lineEdits}
+              onLineEditGroupChange={setLineEdits}
             />
           );
         })}
