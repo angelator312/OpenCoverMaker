@@ -54,11 +54,6 @@ function fromLinesToLineEditGroups(
       continue;
     if (newLine.startsWith("[")) {
       const type = typeFromString(newLine);
-      if (type === TypeEnum.Chorus)
-        console.log(
-          "args on chorus:",
-          partialLineEditFromStringAndType(newLine, type).args,
-        );
       lineEditGroups.push({
         originalLyrics: originalLines[++ptr_org] ?? "",
         newLyrics: newLines[++ptr_new],
