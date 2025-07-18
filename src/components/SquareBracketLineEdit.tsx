@@ -46,7 +46,7 @@ export default function SquareBracketLineEdit({
       <Text>:</Text>
       <TextInput
         autoFocus={autoFocus}
-        value={lineEditGroup.args[0]}
+        value={lineEditGroup.args[0] ?? ""}
         onChange={(e) => {
           const new_args = lineEditGroup.args;
           new_args[0] = e.currentTarget.value;
@@ -74,26 +74,7 @@ export function typeFromString(str: string) {
 }
 
 function regexFromType(type: TypeEnum) {
-  switch (type) {
-    case TypeEnum.Verse:
-      return regex_for_verse;
-    case TypeEnum.Chorus:
-      return regex_for_chorus;
-    case TypeEnum.Bridge:
-      return regex_for_bridge;
-    case TypeEnum.Prechorus:
-      return regex_for_prechorus;
-    case TypeEnum.Intro:
-      return regex_for_intro;
-    case TypeEnum.Outro:
-      return regex_for_outro;
-    case TypeEnum.Tag:
-      return regex_for_tag;
-    case TypeEnum.Comment:
-      return regex_for_comment;
-    default:
-      return regex_for_verse;
-  }
+  return regexes[type];
 }
 
 function typeFromName(name: string) {
@@ -106,6 +87,7 @@ export function typeAndArgsToString(
   lineEditGroup: WithRequired<Partial<ILineEditsGroup>, "args" | "type">,
 ) {
   const name = selectOptionsForSquareBrackets[lineEditGroup.type];
+  console.log(`[${name}:${lineEditGroup.args.join(",")}]`);
   return `[${name}:${lineEditGroup.args.join(",")}]`;
 }
 
@@ -115,10 +97,16 @@ export function partialLineEditFromStringAndType(
 ): WithRequired<Partial<ILineEditsGroup>, "args"> {
   let args1 = line.match(regexFromType(type));
   if (!args1) return { args: ["Error"] };
-  let args2: string[] = args1.map((arg) => arg.trim());
+  let args2: string[] = args1
+    .map((arg) => arg.trim())
+    .slice(1 + Number(isTypeHavingSecondArgument(type)));
   let args: ILineEditsGroup["args"] =
     type === TypeEnum.Verse ? [parseInt(args2[0]), args2[1]] : args2;
   return {
     args: args,
   };
+}
+
+function isTypeHavingSecondArgument(type: TypeEnum) {
+  return type === TypeEnum.Verse; //|| type === TypeEnum.Chorus;
 }

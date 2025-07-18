@@ -7,6 +7,7 @@ import SquareBracketLineEdit, {
   typeAndArgsToString,
   typeFromString,
 } from "@/components/SquareBracketLineEdit";
+import { TypeEnum } from "@/data/enums";
 import { selectOptionsForSquareBrackets } from "@/data/names";
 import { ILineEditsGroup } from "@/data/types";
 import {
@@ -53,6 +54,11 @@ function fromLinesToLineEditGroups(
       continue;
     if (newLine.startsWith("[")) {
       const type = typeFromString(newLine);
+      if (type === TypeEnum.Chorus)
+        console.log(
+          "args on chorus:",
+          partialLineEditFromStringAndType(newLine, type).args,
+        );
       lineEditGroups.push({
         originalLyrics: originalLines[++ptr_org] ?? "",
         newLyrics: newLines[++ptr_new],
@@ -114,13 +120,13 @@ export default function EditorPage() {
     if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
   }, [originalLyrics]);
   useEffect(() => {
-    setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
+    // setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
   }, [originalLyrics, newLyrics]);
   //TODO:Optimize the following
   const updateNewLyrics = useCallback(() => {
     //TODO:Make sure the new lyrics are with valid [] format
     const tmp: string = lineEditGroups
-      .map((group) => typeAndArgsToString(group) + group.originalLyrics)
+      .map((group) => typeAndArgsToString(group) + group.newLyrics)
       .join("");
     console.log("lyrics:", tmp);
     setNewLyrics(tmp);
@@ -134,7 +140,7 @@ export default function EditorPage() {
         </Button>
         <Button
           onClick={() => {
-            updateNewLyrics();
+            // updateNewLyrics();
             updateSearchQuery(searchQuery);
           }}
         >
