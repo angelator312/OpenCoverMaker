@@ -37,7 +37,6 @@ function LineEditGroup({
         isNotCollapsed={isNotCollapsed}
         newLines={newLines}
         setNewLines={(e) => {
-          console.log(e);
           setLineEditGroupChange({
             ...lineEditGroup,
             newLyrics: e(newLines).join("\n"),
