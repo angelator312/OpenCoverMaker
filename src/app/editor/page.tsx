@@ -23,6 +23,8 @@ const url_lyrics_par = "url_for_lyrics";
 const original_lyrics_par = "org_lyrics";
 const new_lyrics_par = "new_lyrics";
 
+const regexForSquareBrackets = /\[(.*?):(.*)/;
+
 export default function EditorPage() {
   const [searchQuery, setSearchQuery] = useState<QueryType>({});
   const searchParams = useSearchParams();
@@ -91,16 +93,21 @@ export default function EditorPage() {
     setNewLyrics(tmp);
     handleChange2({ [new_lyrics_par]: tmp });
   }, [newLyricsLines]);
-  useEffect(() => {
-    updateNewLyrics();
-  }, [nowEditingLine]);
+  // useEffect(() => {
+  //   updateNewLyrics();
+  // }, [nowEditingLine]);
   return (
     <AppShellTemplate is_in_editor={true}>
       <Group>
         <Button onClick={toggle_settings}>
           {opened_settings ? "Hide" : "Show"} settings
         </Button>
-        <Button onClick={() => updateSearchQuery(searchQuery)}>
+        <Button
+          onClick={() => {
+            updateNewLyrics();
+            updateSearchQuery(searchQuery);
+          }}
+        >
           Save settings
         </Button>
       </Group>
