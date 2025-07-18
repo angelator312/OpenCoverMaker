@@ -79,6 +79,7 @@ export default function EditorPage() {
 
   const updateSearchQuery = (updatedQuery: QueryType) => {
     const params = new URLSearchParams(searchParams);
+    console.log("updatedQuery:", updatedQuery);
     Object.keys(updatedQuery).forEach((key) => {
       if (updatedQuery[key]) {
         params.set(key, updatedQuery[key]);
@@ -118,9 +119,9 @@ export default function EditorPage() {
     if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
   }, [originalLyrics]);
   useEffect(() => {
-    console.log("newLyrics");
+    console.log("newLyrics:", newLyrics);
     setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
-  }, []);
+  }, [originalLyrics, newLyrics]);
   //TODO:Optimize the following
   const updateNewLyrics = useCallback(() => {
     //TODO:Make sure the new lyrics are with valid [] format
@@ -129,7 +130,9 @@ export default function EditorPage() {
       .join("");
     console.log("lyrics:", tmp);
     setNewLyrics(tmp);
-    handleChange2({ [new_lyrics_par]: tmp });
+    const tmp2 = { ...searchQuery, [new_lyrics_par]: tmp };
+    handleChange2(tmp2);
+    updateSearchQuery(tmp2);
   }, [lineEditGroups]);
   return (
     <AppShellTemplate is_in_editor={true}>
@@ -140,7 +143,6 @@ export default function EditorPage() {
         <Button
           onClick={() => {
             updateNewLyrics();
-            updateSearchQuery(searchQuery);
           }}
         >
           Save in URL
