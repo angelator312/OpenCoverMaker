@@ -3,7 +3,7 @@ import { selectOptionsForSquareBrackets } from "@/data/names";
 import { Group, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 const regex_for_verse = /\[Verse:(.*)\]/g;
-const regex_for_chorus = /\[Chorus:(.*)\]/g;
+const regex_for_chorus = /\[Chorus\]/g;
 const regex_for_bridge = /\[Bridge:(.*)\]/g;
 const regex_for_prechorus = /\[Pre-chorus (\d)\]/g;
 const regex_for_intro = /\[Intro ()\]/g;
