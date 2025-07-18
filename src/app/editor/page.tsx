@@ -3,11 +3,13 @@ import AppShellTemplate from "@/components/AppShellTemplate";
 import { LineEdit } from "@/components/LineEdit";
 import LineEditGroup from "@/components/LineEditGroup";
 import SquareBracketLineEdit from "@/components/SquareBracketLineEdit";
+import { selectOptionsForSquareBrackets } from "@/data/names";
 import { I_LineEditsGroup } from "@/data/types";
 import {
   Button,
   Collapse,
   Group,
+  Select,
   Space,
   Stack,
   Textarea,
@@ -190,6 +192,10 @@ export default function EditorPage() {
           );
         })}
       </Stack>
+      <Group>
+        <Select data={selectOptionsForSquareBrackets} />
+        <Button onClick={() => {}}>Add</Button>
+      </Group>
     </AppShellTemplate>
   );
 }

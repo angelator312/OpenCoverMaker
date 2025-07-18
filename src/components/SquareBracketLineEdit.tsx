@@ -1,3 +1,5 @@
+import { TypeEnum } from "@/data/enums";
+import { selectOptionsForSquareBrackets } from "@/data/names";
 import { Group, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 const regex_for_verse = /\[Verse:(.*)\]/g;
@@ -18,26 +20,7 @@ const regexes = [
   regex_for_tag,
   regex_for_comment,
 ];
-const names = [
-  "Verse",
-  "Chorus",
-  "Bridge",
-  "Pre-chorus",
-  "Intro",
-  "Outro",
-  "Tag",
-  "Comment",
-];
-enum TypeEnum {
-  Verse = 0,
-  Chorus = 1,
-  Bridge = 2,
-  Prechorus = 3,
-  Intro = 4,
-  Outro = 5,
-  Tag = 6,
-  Comment = 7,
-}
+
 export default function SquareBracketLineEdit({
   new_lyrics,
   setNewLyrics,
@@ -58,13 +41,13 @@ export default function SquareBracketLineEdit({
     setValue(match.slice(1)[0]);
   }, [new_lyrics, type]);
   useEffect(() => {
-    setNewLyrics(`[${names[type]}:${value}]`);
+    setNewLyrics(`[${selectOptionsForSquareBrackets[type]}:${value}]`);
   }, [type, value]);
   return (
     <Group>
       <Select
-        value={names[type]}
-        data={names}
+        value={selectOptionsForSquareBrackets[type]}
+        data={selectOptionsForSquareBrackets}
         onChange={(e) => setType(typeFromName(e ?? ""))}
         // inputSize="100"
       />
@@ -91,5 +74,5 @@ export function typeFromString(str: string) {
   return TypeEnum.Verse;
 }
 function typeFromName(name: string) {
-  return names.indexOf(name);
+  return selectOptionsForSquareBrackets.indexOf(name);
 }
