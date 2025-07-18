@@ -182,14 +182,6 @@ export default function EditorPage() {
       <Space h="md" />
       <Stack key={"reloads:" + reloadCount}>
         {lineEditGroups.map((e: I_LineEditsGroup, i: number) => {
-          const [lineEdits, setLineEdits] = useState<I_LineEditsGroup>(e);
-          // useEffect(() => {
-          //   setLineEditGroups((prev) => {
-          //     const newGroups = [...prev];
-          //     newGroups[i] = lineEdits;
-          //     return newGroups;
-          //   });
-          // }, [lineEdits]);
           return (
             <LineEditGroup
               key={i}
@@ -200,7 +192,6 @@ export default function EditorPage() {
                   newGroups[i] = newGroup;
                   return newGroups;
                 });
-                setLineEdits(newGroup);
               }}
             />
           );
