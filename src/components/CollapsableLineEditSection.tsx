@@ -11,7 +11,7 @@ function CollapsableLineEditSection({
   isNotCollapsed: boolean;
   originalLines: string[];
   newLines: string[];
-  setNewLines: React.Dispatch<React.SetStateAction<string[]>>;
+  setNewLines: (e: (prevState: string[]) => string[]) => void;
 }) {
   const [focusedLine, setFocusedLine] = useState<number>(0);
   return (

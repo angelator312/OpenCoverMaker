@@ -193,8 +193,8 @@ export default function EditorPage() {
           return (
             <LineEditGroup
               key={i}
-              lineEditGroup={lineEdits}
-              onLineEditGroupChange={(newGroup) => {
+              lineEditGroup={lineEditGroups[i]}
+              setLineEditGroupChange={(newGroup) => {
                 setLineEditGroups((prev) => {
                   const newGroups = [...prev];
                   newGroups[i] = newGroup;

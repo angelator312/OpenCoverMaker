@@ -1,56 +1,37 @@
 import { Button, Group } from "@mantine/core";
-import React, { EffectCallback, useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import SquareBracketLineEdit from "./SquareBracketLineEdit";
 import CollapsableLineEditSection from "./CollapsableLineEditSection";
 import { I_LineEditsGroup } from "@/data/types";
 
-// function useEffectAllDepsChange(fn: EffectCallback, deps: any[]) {
-//   const [changeTarget, setChangeTarget] = useState(deps);
-
-//   useEffect(() => {
-//     setChangeTarget((prev) => {
-//       if (prev.every((dep, i) => dep !== deps[i])) {
-//         return deps;
-//       }
-
-//       return prev;
-//     });
-//   }, [deps]);
-
-//   useEffect(fn, changeTarget);
-// }
-
 function LineEditGroup({
   lineEditGroup,
-  onLineEditGroupChange,
+  setLineEditGroupChange,
 }: {
   lineEditGroup: I_LineEditsGroup;
-  onLineEditGroupChange: (newGroup: I_LineEditsGroup) => void;
+  setLineEditGroupChange: (newGroup: I_LineEditsGroup) => void;
 }) {
   const [isNotCollapsed, setIsNotCollapsed] = useState(false);
-  const [squareBracketLine, setSquareBracketLine] = useState<string>("");
-  const [newLines, setNewLines] = useState<string[]>([]);
-  const [originalLines, setOriginalLines] = useState<string[]>([]);
 
-  useEffect(() => {
-    setOriginalLines(lineEditGroup.originalLyrics.trim().split("\n"));
-    setNewLines(lineEditGroup.newLyrics.trim().split("\n"));
-  }, [lineEditGroup]);
+  const newLines = useMemo(() => {
+    return lineEditGroup.newLyrics.trim().split("\n");
+  }, [lineEditGroup.newLyrics]);
 
-  // useEffectAllDepsChange(() => {
-  //   onLineEditGroupChange({
-  //     originalLyrics: lineEditGroup.originalLyrics,
-  //     newLyrics: newLines.join("\n"),
-  //     squareBracketLine: squareBracketLine,
-  //   });
-  // }, [isNotCollapsed, newLines]);
+  const originalLines = useMemo(() => {
+    return lineEditGroup.originalLyrics.trim().split("\n");
+  }, [lineEditGroup.originalLyrics]);
 
   return (
     <>
       <Group>
         <SquareBracketLineEdit
-          new_lyrics={squareBracketLine}
-          setNewLyrics={setSquareBracketLine}
+          new_lyrics={lineEditGroup.squareBracketLine}
+          setNewLyrics={(e) => {
+            setLineEditGroupChange({
+              ...lineEditGroup,
+              squareBracketLine: e,
+            });
+          }}
         />
         <Button onClick={() => setIsNotCollapsed(!isNotCollapsed)}>
           {isNotCollapsed ? "^" : "˅"}
@@ -60,7 +41,13 @@ function LineEditGroup({
       <CollapsableLineEditSection
         isNotCollapsed={isNotCollapsed}
         newLines={newLines}
-        setNewLines={setNewLines}
+        setNewLines={(e) => {
+          console.log(e);
+          setLineEditGroupChange({
+            ...lineEditGroup,
+            newLyrics: e(newLines).join("\n"),
+          });
+        }}
         originalLines={originalLines}
       />
     </>
