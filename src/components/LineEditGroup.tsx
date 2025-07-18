@@ -1,15 +1,31 @@
 import { Button, Group } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import React, { EffectCallback, useEffect, useState } from "react";
 import SquareBracketLineEdit from "./SquareBracketLineEdit";
 import CollapsableLineEditSection from "./CollapsableLineEditSection";
 import { I_LineEditsGroup } from "@/data/types";
+
+// function useEffectAllDepsChange(fn: EffectCallback, deps: any[]) {
+//   const [changeTarget, setChangeTarget] = useState(deps);
+
+//   useEffect(() => {
+//     setChangeTarget((prev) => {
+//       if (prev.every((dep, i) => dep !== deps[i])) {
+//         return deps;
+//       }
+
+//       return prev;
+//     });
+//   }, [deps]);
+
+//   useEffect(fn, changeTarget);
+// }
 
 function LineEditGroup({
   lineEditGroup,
   onLineEditGroupChange,
 }: {
   lineEditGroup: I_LineEditsGroup;
-  onLineEditGroupChange: React.Dispatch<React.SetStateAction<I_LineEditsGroup>>;
+  onLineEditGroupChange: (newGroup: I_LineEditsGroup) => void;
 }) {
   const [isNotCollapsed, setIsNotCollapsed] = useState(false);
   const [squareBracketLine, setSquareBracketLine] = useState<string>("");
@@ -20,6 +36,14 @@ function LineEditGroup({
     setOriginalLines(lineEditGroup.originalLyrics.trim().split("\n"));
     setNewLines(lineEditGroup.newLyrics.trim().split("\n"));
   }, [lineEditGroup]);
+
+  // useEffectAllDepsChange(() => {
+  //   onLineEditGroupChange({
+  //     originalLyrics: lineEditGroup.originalLyrics,
+  //     newLyrics: newLines.join("\n"),
+  //     squareBracketLine: squareBracketLine,
+  //   });
+  // }, [isNotCollapsed, newLines]);
 
   return (
     <>

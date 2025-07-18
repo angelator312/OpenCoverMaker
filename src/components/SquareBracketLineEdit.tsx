@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 const regex_for_verse = /\[Verse:(.*)\]/g;
 const regex_for_chorus = /\[Chorus:(.*)\]/g;
 const regex_for_bridge = /\[Bridge:(.*)\]/g;
-const regex_for_prechorus = /\[Pre-chorus:(.*)\]/g;
-const regex_for_intro = /\[Intro:(.*)\]/g;
-const regex_for_outro = /\[Outro:(.*)\]/g;
+const regex_for_prechorus = /\[Pre-chorus (\d)\]/g;
+const regex_for_intro = /\[Intro ()\]/g;
+const regex_for_outro = /\[Outro ()\]/g;
 const regex_for_tag = /\[Tag:(.*)\]/g;
 const regex_for_comment = /\[Comment:(.*)\]/g;
 const regexes = [

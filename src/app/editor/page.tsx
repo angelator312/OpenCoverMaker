@@ -183,11 +183,25 @@ export default function EditorPage() {
       <Stack key={"reloads:" + reloadCount}>
         {lineEditGroups.map((e: I_LineEditsGroup, i: number) => {
           const [lineEdits, setLineEdits] = useState<I_LineEditsGroup>(e);
+          // useEffect(() => {
+          //   setLineEditGroups((prev) => {
+          //     const newGroups = [...prev];
+          //     newGroups[i] = lineEdits;
+          //     return newGroups;
+          //   });
+          // }, [lineEdits]);
           return (
             <LineEditGroup
               key={i}
               lineEditGroup={lineEdits}
-              onLineEditGroupChange={setLineEdits}
+              onLineEditGroupChange={(newGroup) => {
+                setLineEditGroups((prev) => {
+                  const newGroups = [...prev];
+                  newGroups[i] = newGroup;
+                  return newGroups;
+                });
+                setLineEdits(newGroup);
+              }}
             />
           );
         })}
