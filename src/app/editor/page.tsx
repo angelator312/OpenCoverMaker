@@ -102,7 +102,6 @@ export default function EditorPage() {
     fromLinesToLineEditGroups(originalLyrics, newLyrics),
   );
   const [reloadCount, setReloadCount] = useState<number>(0);
-  const [nowEditingLine, setNowEditingLine] = useState<number>(0);
 
   useEffect(() => {
     if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
@@ -111,15 +110,15 @@ export default function EditorPage() {
     setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
   }, [originalLyrics, newLyrics]);
   //TODO:Optimize the following
-  // const updateNewLyrics = useCallback(() => {
-  //   //TODO:Make sure the new lyrics are with valid [] format
-  //   const tmp = newLyricsLines.join("[:]");
-  //   setNewLyrics(tmp);
-  //   handleChange2({ [new_lyrics_par]: tmp });
-  // }, [newLyricsLines]);
-  // useEffect(() => {
-  //   updateNewLyrics();
-  // }, [nowEditingLine]);
+  const updateNewLyrics = useCallback(() => {
+    //TODO:Make sure the new lyrics are with valid [] format
+    const tmp: string = lineEditGroups
+      .map((group) => group.squareBracketLine + group.originalLyrics)
+      .join("");
+    console.log("lyrics:", tmp);
+    setNewLyrics(tmp);
+    handleChange2({ [new_lyrics_par]: tmp });
+  }, [lineEditGroups]);
   return (
     <AppShellTemplate is_in_editor={true}>
       <Group>
@@ -128,11 +127,11 @@ export default function EditorPage() {
         </Button>
         <Button
           onClick={() => {
-            // updateNewLyrics();
+            updateNewLyrics();
             updateSearchQuery(searchQuery);
           }}
         >
-          Save settings
+          Save in URL
         </Button>
       </Group>
       <Space h="md" />
