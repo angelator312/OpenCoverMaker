@@ -3,19 +3,19 @@ import React, { useEffect, useState } from "react";
 import { LineEdit } from "./LineEdit";
 
 function CollapsableLineEditSection({
-  isCollapsed,
+  isNotCollapsed,
   originalLines,
   newLines,
   setNewLines,
 }: {
-  isCollapsed: boolean;
+  isNotCollapsed: boolean;
   originalLines: string[];
   newLines: string[];
   setNewLines: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
   const [focusedLine, setFocusedLine] = useState<number>(0);
   return (
-    <Collapse in={isCollapsed}>
+    <Collapse in={isNotCollapsed}>
       <Stack>
         {newLines.map((line, index) => (
           <LineEdit

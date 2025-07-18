@@ -1,6 +1,5 @@
-import { Collapse, Group, Stack } from "@mantine/core";
+import { Button, Group } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { LineEdit } from "./LineEdit";
 import SquareBracketLineEdit from "./SquareBracketLineEdit";
 import CollapsableLineEditSection from "./CollapsableLineEditSection";
 import { I_LineEditsGroup } from "@/data/types";
@@ -12,7 +11,7 @@ function LineEditGroup({
   lineEditGroup: I_LineEditsGroup;
   onLineEditGroupChange: React.Dispatch<React.SetStateAction<I_LineEditsGroup>>;
 }) {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isNotCollapsed, setIsNotCollapsed] = useState(false);
   const [squareBracketLine, setSquareBracketLine] = useState<string>("");
   const [newLines, setNewLines] = useState<string[]>([]);
   const [originalLines, setOriginalLines] = useState<string[]>([]);
@@ -24,13 +23,18 @@ function LineEditGroup({
 
   return (
     <>
-      <SquareBracketLineEdit
-        new_lyrics={squareBracketLine}
-        setNewLyrics={setSquareBracketLine}
-      />
+      <Group>
+        <SquareBracketLineEdit
+          new_lyrics={squareBracketLine}
+          setNewLyrics={setSquareBracketLine}
+        />
+        <Button onClick={() => setIsNotCollapsed(!isNotCollapsed)}>
+          {isNotCollapsed ? "^" : "˅"}
+        </Button>
+      </Group>
 
       <CollapsableLineEditSection
-        isCollapsed={isCollapsed}
+        isNotCollapsed={isNotCollapsed}
         newLines={newLines}
         setNewLines={setNewLines}
         originalLines={originalLines}

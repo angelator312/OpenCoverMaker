@@ -35,17 +35,17 @@ function fromLinesToLineEditGroups(
   const newLines = newLyrics.trim().split(regexForSquareBrackets);
 
   const lineEditGroups: I_LineEditsGroup[] = [];
-
-  for (let i = 0; i < Math.max(originalLines.length, newLines.length); i++) {
-    const originalLine = originalLines[i] ?? "";
-    const newLine = newLines[i] ?? "";
-
-    lineEditGroups.push({
-      originalLyrics: originalLine,
-      newLyrics: newLine,
-      squareBracketLine: `[${i + 1}]`,
-    });
+  console.log("originalLines:", originalLines);
+  console.log("newLines:", newLines);
+  if (!originalLines[0].startsWith("[")) {
+    originalLines.splice(0, 0, "[:]");
   }
+
+  // lineEditGroups.push({
+  //   originalLyrics: originalLine,
+  //   newLyrics: newLine,
+  //   squareBracketLine: `[${i + 1}]`,
+  // });
 
   return lineEditGroups;
 }
