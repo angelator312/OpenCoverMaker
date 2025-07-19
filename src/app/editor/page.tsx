@@ -33,7 +33,7 @@ const url_lyrics_par = "url_for_lyrics";
 const original_lyrics_par = "org_lyrics";
 const new_lyrics_par = "new_lyrics";
 
-const regexForSquareBrackets = /^(\[.*\])$/gm;
+const regexForSquareBrackets = /^(\[.*\]\n)$/gm;
 
 function fromLinesToLineEditGroups(
   originalLyrics: string,
@@ -123,8 +123,8 @@ export default function EditorPage() {
     //TODO:Make sure the new lyrics are with valid [] format
     const tmp: string = lineEditGroups
       .map((group) => {
-        let tmp2 = typeAndArgsToString(group);
-        if (tmp2.at(-1) != "\n" && group.newLyrics[0] != "\n") tmp2 += "\n";
+        let tmp2 = typeAndArgsToString(group) + "\n";
+        // if (tmp2.at(-1) != "\n" && group.newLyrics[0] != "\n") tmp2 += "\n";
         return tmp2 + group.newLyrics;
       })
       .join("\n");
