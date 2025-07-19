@@ -43,7 +43,7 @@ function fromLinesToLineEditGroups(
 
   const lineEditGroups: ILineEditsGroup[] = [];
   // console.log("originalLines:", originalLines);
-  // console.log("newLines:", newLines);
+  console.log("newLines:", newLines);
 
   let ptr_new = 0,
     ptr_org = 0;
@@ -121,8 +121,8 @@ export default function EditorPage() {
   const updateNewLyrics = useCallback(() => {
     //TODO:Make sure the new lyrics are with valid [] format
     const tmp: string = lineEditGroups
-      .map((group) => typeAndArgsToString(group) + group.newLyrics)
-      .join("");
+      .map((group) => typeAndArgsToString(group) + "\n" + group.newLyrics)
+      .join("\n");
     console.log("lyrics:", tmp);
     setNewLyrics(tmp);
     const tmp2 = { ...searchQuery, [new_lyrics_par]: tmp };
