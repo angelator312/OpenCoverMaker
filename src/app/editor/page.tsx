@@ -31,7 +31,7 @@ const url_lyrics_par = "url_for_lyrics";
 const original_lyrics_par = "org_lyrics";
 const new_lyrics_par = "new_lyrics";
 
-const regexForSquareBrackets = /^(\[.*\]\n)$/gm;
+const regexForSquareBrackets = /(\[.*\]\n)/gm;
 
 function fromLinesToLineEditGroups(
   originalLyrics: string,
