@@ -14,9 +14,10 @@ function CollapsableLineEditSection({
   setNewLines: (e: (prevState: string[]) => string[]) => void;
 }) {
   const [focusedLine, setFocusedLine] = useState<number>(0);
+  const [reloadCount, setReloadCount] = useState<number>(0);
   return (
     <Collapse in={isNotCollapsed}>
-      <Stack>
+      <Stack key={"reload:" + reloadCount}>
         {newLines.map((line, index) => (
           <LineEdit
             autoFocus={focusedLine === index}
@@ -33,12 +34,14 @@ function CollapsableLineEditSection({
                 return newLines;
               });
             }}
-            onEnterKeyPressed={function (): void {
+            onEnterKeyPressed={() => {
               setNewLines((prevLines) => {
                 const newLines = [...prevLines];
-                // newLines.splice(i,0,0)
+                newLines.splice(index + 1, 0, "");
+                console.log("Enter key pressed:", newLines);
                 return newLines;
               });
+              setReloadCount(reloadCount + 1);
             }}
             onLastBackSpacePressed={function (): void {
               throw new Error("Function not implemented.");

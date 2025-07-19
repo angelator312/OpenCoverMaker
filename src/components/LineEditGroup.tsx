@@ -14,11 +14,11 @@ function LineEditGroup({
   const [isNotCollapsed, setIsNotCollapsed] = useState(false);
 
   const newLines = useMemo(() => {
-    return lineEditGroup.newLyrics.trim().split("\n");
+    return lineEditGroup.newLyrics.split("\n");
   }, [lineEditGroup.newLyrics]);
 
   const originalLines = useMemo(() => {
-    return lineEditGroup.originalLyrics.trim().split("\n");
+    return lineEditGroup.originalLyrics.split("\n");
   }, [lineEditGroup.originalLyrics]);
 
   return (
