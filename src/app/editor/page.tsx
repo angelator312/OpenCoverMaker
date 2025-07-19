@@ -8,6 +8,7 @@ import {
   typeAndArgsToString,
   typeFromString,
 } from "@/components/SquareBracketLineEdit";
+import { GenreEnum } from "@/data/enums";
 import { load_song, save_song } from "@/data/LocalStorageSave";
 import { selectOptionsForSquareBrackets } from "@/data/names";
 import { ILineEditsGroup, SongDetails } from "@/data/types";
@@ -68,7 +69,17 @@ function fromLinesToLineEditGroups(
 }
 
 export default function EditorPage() {
-  const [searchQuery, setSearchQuery] = useState<SongDetails>({});
+  const [searchQuery, setSearchQuery] = useState<SongDetails>({
+    newSongName: "",
+    newArtist: "",
+    newGenre: GenreEnum.Pop,
+    newLyrics: "",
+    originalArtist: "",
+    originalLyrics: "",
+    originalSongName: "",
+    URLForLyrics: "",
+    key: "KEY",
+  });
   const searchParams = useSearchParams();
   const router = useRouter();
   const updateSearchQuery = (updatedQuery: SongDetails) => {
@@ -101,11 +112,10 @@ export default function EditorPage() {
         song.newLyrics,
       );
       setLineEditGroups(tmp);
-      setReloadCount(reloadCount + 1);
     } else {
       router.push("/");
     }
-  }, [searchParams.get("key")]);
+  }, [searchParams, router]);
   //TODO:Optimize the following
   const updateNewLyrics = useCallback(() => {
     //TODO:Make sure the new lyrics are with valid [] format
@@ -126,7 +136,7 @@ export default function EditorPage() {
       <Group>
         <Button
           onClick={() => {
-            updateNewLyrics(lineEditGroups);
+            updateNewLyrics();
           }}
         >
           Save in URL
