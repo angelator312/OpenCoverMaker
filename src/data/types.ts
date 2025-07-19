@@ -4,13 +4,7 @@ export interface ILineEditsGroup {
   originalLyrics: string;
   newLyrics: string;
   type: TypeEnum;
-  args:
-    | ArgsOnVerse
-    | ArgsOnChorus
-    // | []
-    | ArgsOnPrechorus
-    | ArgsOnTag
-    | ArgsOnComment;
+  args: ArgTypes[];
 }
 
 // interface IVerseLineEditsGroup extends IBaseLineEditsGroup {

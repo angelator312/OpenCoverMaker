@@ -1,6 +1,6 @@
 import { TypeEnum } from "@/data/enums";
 import { selectOptionsForSquareBrackets } from "@/data/names";
-import { ILineEditsGroup, WithRequired } from "@/data/types";
+import { ArgTypes, ILineEditsGroup, WithRequired } from "@/data/types";
 import { stringifyArgsFromType } from "@/data/utils";
 import { Group, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
@@ -103,11 +103,26 @@ export function partialLineEditFromStringAndType(
     .map((arg) => arg.trim())
     .slice(1, 1 + stringifyArgs.length);
   console.log("args2:", args2);
-  let args: ILineEditsGroup["args"] = [];
+  let args: ArgTypes[] = [];
   let i = 0;
   for (let e of stringifyArgs) {
-    args.push(args2[i]);
-    i+=1
+    let tmp1: ArgTypes;
+    switch (e) {
+      case "string":
+        tmp1 = args2[i];
+        break;
+      case "number":
+        tmp1 = parseInt(args2[i]);
+        break;
+      // case "boolean":
+      //   tmp1 = args2[i] === "true";
+      //   break;
+      default:
+        tmp1 = args2[i];
+        break;
+    }
+    args.push(tmp1);
+    i += 1;
   }
   return {
     args: args,
