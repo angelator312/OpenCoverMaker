@@ -63,6 +63,8 @@ type ArgsOnTag = [string] | string[];
 // [comment]
 type ArgsOnComment = [string];
 
+export type ArgTypes = string | number;
+
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
 // export type ArgsFromTypeEnum<T> =

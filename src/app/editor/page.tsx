@@ -1,4 +1,5 @@
 "use client";
+import AddButton from "@/components/AddButton";
 import AppShellTemplate from "@/components/AppShellTemplate";
 import LineEditGroup from "@/components/LineEditGroup";
 import PasteButton from "@/components/PasteButton";
@@ -126,7 +127,7 @@ export default function EditorPage() {
         // if (tmp2.at(-1) != "\n" && group.newLyrics[0] != "\n") tmp2 += "\n";
         return tmp2 + group.newLyrics;
       })
-      .join("\n");
+      .join("");
     console.log("lyrics:", tmp);
     setNewLyrics(tmp);
     const tmp2 = { ...searchQuery, [new_lyrics_par]: tmp };
@@ -211,10 +212,15 @@ export default function EditorPage() {
         })}
       </Stack>
       <Space h="md" />
-      <Group>
-        <Select data={selectOptionsForSquareBrackets} />
-        <Button onClick={() => {}}>Add</Button>
-      </Group>
+      <AddButton
+        addLyrics={(type, args) => {
+          setLineEditGroups((prev) => {
+            const newGroups = [...prev];
+            newGroups.push({ type, args, newLyrics: "", originalLyrics: "" });
+            return newGroups;
+          });
+        }}
+      />
     </AppShellTemplate>
   );
 }

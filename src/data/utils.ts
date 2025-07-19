@@ -1,13 +1,14 @@
 import { TypeEnum } from "./enums";
 import { selectOptionsForSquareBrackets } from "./names";
+import { ArgTypes } from "./types";
 
 export function stringifyArgsFromType(type: TypeEnum): string[] {
   return args[type];
 }
-export function defaultLyricsLineFromType(type: TypeEnum): string {
+export function defaultArgsFromType(type: TypeEnum) {
   let strArgs = stringifyArgsFromType(type);
-  let args: any[] = strArgs.map((e) => {
-    let tmp: string | number;
+  let args: ArgTypes[] = strArgs.map((e) => {
+    let tmp: ArgTypes;
     switch (e) {
       case "string":
         tmp = "";
@@ -21,7 +22,9 @@ export function defaultLyricsLineFromType(type: TypeEnum): string {
     }
     return tmp;
   });
-
+  return args;
+}
+export function defaultLyricsLineFromType(type: TypeEnum): string {
   return "[" + selectOptionsForSquareBrackets[type] + args.join(",") + "]\n";
 }
 let ArgsOnVerse = ["number", "string"];
