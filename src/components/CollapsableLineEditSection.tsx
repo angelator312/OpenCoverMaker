@@ -47,7 +47,7 @@ function CollapsableLineEditSection({
             onLastBackSpacePressed={function (): void {
               setNewLines((prevLines) => {
                 const newLines = [...prevLines];
-                newLines.splice(index - 1, 1);
+                newLines.splice(index, 1);
                 console.log("Backspace key pressed:", newLines);
                 return newLines;
               });

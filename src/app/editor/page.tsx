@@ -1,14 +1,12 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
-import { LineEdit } from "@/components/LineEdit";
 import LineEditGroup from "@/components/LineEditGroup";
 import PasteButton from "@/components/PasteButton";
-import SquareBracketLineEdit, {
+import {
   partialLineEditFromStringAndType,
   typeAndArgsToString,
   typeFromString,
 } from "@/components/SquareBracketLineEdit";
-import { TypeEnum } from "@/data/enums";
 import { selectOptionsForSquareBrackets } from "@/data/names";
 import { ILineEditsGroup } from "@/data/types";
 import {
