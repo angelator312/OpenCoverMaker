@@ -1,11 +1,19 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
 import { get_songs } from "@/data/LocalStorageSave";
+import { SongDetails } from "@/data/types";
 import { Stack } from "@mantine/core";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
-  const songs = get_songs();
+  const [songs, setSongs] = useState<SongDetails[]>([]);
+  useEffect(() => {
+    const storedSongs = get_songs();
+    if (storedSongs) {
+      setSongs(storedSongs);
+    }
+  }, [localStorage]);
   return (
     <AppShellTemplate>
       <div>Home page</div>
