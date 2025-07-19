@@ -2,6 +2,7 @@
 import AppShellTemplate from "@/components/AppShellTemplate";
 import { LineEdit } from "@/components/LineEdit";
 import LineEditGroup from "@/components/LineEditGroup";
+import PasteButton from "@/components/PasteButton";
 import SquareBracketLineEdit, {
   partialLineEditFromStringAndType,
   typeAndArgsToString,
@@ -182,6 +183,7 @@ export default function EditorPage() {
               autosize
               resize="both"
             />
+            <PasteButton onPasteClicked={(e) => setOriginalLyrics(e)} />
           </Group>
         </Collapse>
       </Collapse>
