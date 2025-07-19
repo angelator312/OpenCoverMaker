@@ -149,48 +149,7 @@ export default function EditorPage() {
         </Button>
       </Group>
       <Space h="md" />
-      <Collapse in={opened_settings}>
-        <Group>
-          <TextInput
-            value={searchParams.get(original_song_name_par) ?? ""}
-            onChange={(e) => handleChange(original_song_name_par, e)}
-            label="Name of the original song"
-            description="Input the name of the original song."
-          />
-          <TextInput
-            value={searchParams.get(new_song_name_par) ?? ""}
-            onChange={(e) => handleChange(new_song_name_par, e)}
-            label="Name of the new song"
-            description="Input the name of the new song."
-          />
-          <TextInput
-            value={searchParams.get(url_lyrics_par) ?? ""}
-            onChange={(e) => handleChange(url_lyrics_par, e)}
-            label="URL for lyrics"
-            description="Paste URL for lyrics."
-            placeholder="genius.com or azlyrics.com/ "
-            disabled
-          />
-        </Group>
-        <Space h="md" />
-        <Button onClick={toggle_lyrics}>
-          {opened_lyrics ? "Hide" : "Show"} Original Lyrics
-        </Button>
-        <Space h="md" />
-        <Collapse in={opened_lyrics}>
-          <Group>
-            <Textarea
-              value={originalLyrics}
-              onChange={(e) => handleChange(original_lyrics_par, e)}
-              label="Original Lyrics"
-              description="Paste the original lyrics of the song" // Think about better description
-              autosize
-              resize="both"
-            />
-            <PasteButton onPasteClicked={(e) => setOriginalLyrics(e)} />
-          </Group>
-        </Collapse>
-      </Collapse>
+      <Collapse in={opened_settings}></Collapse>
       <Space h="md" />
       <Title order={3}>New lyrics</Title>
       <Space h="md" />

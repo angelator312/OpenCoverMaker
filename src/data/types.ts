@@ -15,6 +15,8 @@ export interface SongDetails {
   newGenre: GenreEnum;
   originalArtist: string;
   originalSongName: string;
+  URLForLyrics: string;
+  key: string;
 }
 
 // interface IVerseLineEditsGroup extends IBaseLineEditsGroup {
