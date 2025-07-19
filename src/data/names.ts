@@ -1,4 +1,22 @@
-import { GenreEnum, TypeEnum } from "./enums";
-
-export const selectOptionsForSquareBrackets = Object.keys(TypeEnum);
-export const genres = Object.keys(GenreEnum);
+export const selectOptionsForSquareBrackets = [
+  "Verse",
+  "Chorus",
+  "Bridge",
+  "Pre-chorus",
+  "Intro",
+  "Outro",
+  "Tag",
+  "Comment",
+];
+export const genres = [
+  "Rock",
+  "Pop",
+  "HipHop",
+  "Electronic",
+  "Jazz",
+  "Country",
+  "Metal",
+  "Blues",
+  "Folk",
+  "RnB",
+];

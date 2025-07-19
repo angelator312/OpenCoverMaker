@@ -8,8 +8,9 @@ import {
   typeAndArgsToString,
   typeFromString,
 } from "@/components/SquareBracketLineEdit";
+import { save_song } from "@/data/LocalStorageSave";
 import { selectOptionsForSquareBrackets } from "@/data/names";
-import { ILineEditsGroup } from "@/data/types";
+import { ILineEditsGroup, SongDetails } from "@/data/types";
 import {
   Button,
   Collapse,
@@ -25,7 +26,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 
-type QueryType = { [key: string]: string };
+// type QueryType = { [key: string]: string };
 const original_song_name_par = "org_song_name";
 const new_song_name_par = "new_song_name";
 const url_lyrics_par = "url_for_lyrics";
@@ -67,40 +68,15 @@ function fromLinesToLineEditGroups(
 }
 
 export default function EditorPage() {
-  const [searchQuery, setSearchQuery] = useState<QueryType>({});
+  const [searchQuery, setSearchQuery] = useState<SongDetails>({});
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const updateSearchQuery = (updatedQuery: QueryType) => {
-    const params = new URLSearchParams(searchParams);
-    console.log("updatedQuery:", updatedQuery);
-    Object.keys(updatedQuery).forEach((key) => {
-      if (updatedQuery[key]) {
-        params.set(key, updatedQuery[key]);
-      } else {
-        params.delete(key);
-      }
-    });
-    const queryString = params.toString();
-    const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
-    router.push(updatedPath);
-  };
-  const handleChange2 = (object_to_add: QueryType) => {
-    const new_query: QueryType = { ...searchQuery, ...object_to_add };
-    setSearchQuery(new_query);
-    // updateSearchQuery(new_query);
-  };
-  const handleChange = (
-    key: string,
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    if (key == original_lyrics_par) setOriginalLyrics(e.currentTarget.value);
-    handleChange2({ [key]: e.currentTarget.value });
+  const updateSearchQuery = (updatedQuery: SongDetails) => {
+    save_song(updatedQuery);
   };
 
-  const [opened_settings, { toggle: toggle_settings }] = useDisclosure(false);
-  const [opened_lyrics, { toggle: toggle_lyrics }] = useDisclosure(true);
   const [newLyrics, setNewLyrics] = useState<string>(
     searchParams.get(new_lyrics_par) ?? "",
   );
@@ -130,16 +106,12 @@ export default function EditorPage() {
       .join("");
     console.log("lyrics:", tmp);
     setNewLyrics(tmp);
-    const tmp2 = { ...searchQuery, [new_lyrics_par]: tmp };
-    handleChange2(tmp2);
+    const tmp2: SongDetails = { ...searchQuery, newLyrics: tmp };
     updateSearchQuery(tmp2);
   }, [lineEditGroups]); // eslint-disable-line
   return (
     <AppShellTemplate header="Editor">
       <Group>
-        <Button onClick={toggle_settings}>
-          {opened_settings ? "Hide" : "Show"} settings
-        </Button>
         <Button
           onClick={() => {
             updateNewLyrics();
@@ -148,8 +120,6 @@ export default function EditorPage() {
           Save in URL
         </Button>
       </Group>
-      <Space h="md" />
-      <Collapse in={opened_settings}></Collapse>
       <Space h="md" />
       <Title order={3}>New lyrics</Title>
       <Space h="md" />
