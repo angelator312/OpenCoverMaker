@@ -25,7 +25,7 @@ function CollapsableLineEditSection({
             onFocus={function (): void {
               setFocusedLine(index);
             }}
-            org_lyrics={originalLines[index]}
+            org_lyrics={originalLines[index] ?? ""}
             new_lyrics={line}
             setNewLyrics={function (e: string): void {
               setNewLines((prevLines) => {

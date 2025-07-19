@@ -39,8 +39,8 @@ function fromLinesToLineEditGroups(
   originalLyrics: string,
   newLyrics: string,
 ): ILineEditsGroup[] {
-  const originalLines = originalLyrics.trim().split(regexForSquareBrackets);
-  const newLines = newLyrics.trim().split(regexForSquareBrackets);
+  const originalLines = originalLyrics.split(regexForSquareBrackets);
+  const newLines = newLyrics.split(regexForSquareBrackets);
 
   const lineEditGroups: ILineEditsGroup[] = [];
   // console.log("originalLines:", originalLines);
@@ -207,6 +207,7 @@ export default function EditorPage() {
           );
         })}
       </Stack>
+      <Space h="md" />
       <Group>
         <Select data={selectOptionsForSquareBrackets} />
         <Button onClick={() => {}}>Add</Button>

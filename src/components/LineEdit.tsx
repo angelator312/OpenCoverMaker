@@ -62,14 +62,8 @@ function LineEditComp({
     [originalWordsCount, newWordsCount],
   );
 
-  const newWords = useMemo(
-    () => new_lyrics.trim().split(/\s+/).length,
-    [new_lyrics],
-  );
-  const orgWords = useMemo(
-    () => org_lyrics.trim().split(/\s+/).length,
-    [org_lyrics],
-  );
+  const newWords = useMemo(() => new_lyrics.split(/\s+/).length, [new_lyrics]);
+  const orgWords = useMemo(() => org_lyrics.split(/\s+/).length, [org_lyrics]);
 
   const update = useCallback(() => {
     setDifferenceOfCharecters(absoluteDifferenceOfCharecters);
