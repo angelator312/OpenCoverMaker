@@ -1,0 +1,13 @@
+name: Deploy to https://covermaker.angelator312.top/
+on:
+  push:
+    branches: ["main"]
+    tags:
+      - "v*"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger deploy
+        run: curl http://207.180.216.99:3000/api/deploy/d0068d38be76932296625226b0c4f1975db5c08fcb2cac5c
