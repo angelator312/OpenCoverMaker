@@ -56,7 +56,7 @@ function fromLinesToLineEditGroups(
       const type = typeFromString(newLine);
       lineEditGroups.push({
         originalLyrics: originalLines[++ptr_org] ?? "",
-        newLyrics: newLines[++ptr_new],
+        newLyrics: newLines[++ptr_new] ?? originalLines[++ptr_org] ?? "",
         type,
         args: partialLineEditFromStringAndType(newLine, type).args,
       });
