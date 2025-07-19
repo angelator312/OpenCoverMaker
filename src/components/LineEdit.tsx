@@ -45,17 +45,17 @@ function LineEditComp({
     setOriginalWordsCount(orgWords);
     setOriginalCharectersCount(org_lyrics.length);
     update();
-  }, [org_lyrics]);
+  }, [org_lyrics]); // eslint-disable-line
 
   useEffect(() => {
     setNewWordsCount(newWords);
     setNewCharectersCount(new_lyrics.length);
     update();
-  }, [new_lyrics]);
+  }, [new_lyrics]); // eslint-disable-line
 
   const absoluteDifferenceOfCharecters = useMemo(
     () => Math.abs(originalCharectersCount - newCharectersCount),
-    [differenceOfCharecters],
+    [originalCharectersCount, newCharectersCount],
   );
   const absoluteDifferenceOfWords = useMemo(
     () => Math.abs(originalWordsCount - newWordsCount),

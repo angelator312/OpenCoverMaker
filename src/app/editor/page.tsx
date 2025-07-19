@@ -111,9 +111,10 @@ export default function EditorPage() {
   const [lineEditGroups, setLineEditGroups] = useState<ILineEditsGroup[]>([]);
   const [reloadCount, setReloadCount] = useState<number>(0);
 
+  // eslint-disable-next-line
   useEffect(() => {
-    if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics);
-  }, [originalLyrics]);
+    if (newLyrics.trim().length == 0) setNewLyrics(originalLyrics); // eslint-disable-line
+  }, [originalLyrics]); // eslint-disable-line
   useEffect(() => {
     console.log("newLyrics:", newLyrics);
     setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
@@ -133,7 +134,7 @@ export default function EditorPage() {
     const tmp2 = { ...searchQuery, [new_lyrics_par]: tmp };
     handleChange2(tmp2);
     updateSearchQuery(tmp2);
-  }, [lineEditGroups]);
+  }, [lineEditGroups]); // eslint-disable-line
   return (
     <AppShellTemplate is_in_editor={true}>
       <Group>
