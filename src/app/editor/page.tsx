@@ -122,7 +122,11 @@ export default function EditorPage() {
   const updateNewLyrics = useCallback(() => {
     //TODO:Make sure the new lyrics are with valid [] format
     const tmp: string = lineEditGroups
-      .map((group) => typeAndArgsToString(group) + "\n" + group.newLyrics)
+      .map((group) => {
+        let tmp2 = typeAndArgsToString(group);
+        if (tmp2.at(-1) != "\n" && group.newLyrics[0] != "\n") tmp2 += "\n";
+        return tmp2 + group.newLyrics;
+      })
       .join("\n");
     console.log("lyrics:", tmp);
     setNewLyrics(tmp);
