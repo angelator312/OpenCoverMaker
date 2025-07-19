@@ -7,7 +7,7 @@ export interface ILineEditsGroup {
   args:
     | ArgsOnVerse
     | ArgsOnChorus
-    | []
+    // | []
     | ArgsOnPrechorus
     | ArgsOnTag
     | ArgsOnComment;

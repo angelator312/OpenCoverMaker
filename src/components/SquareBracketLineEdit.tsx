@@ -1,6 +1,7 @@
 import { TypeEnum } from "@/data/enums";
 import { selectOptionsForSquareBrackets } from "@/data/names";
 import { ILineEditsGroup, WithRequired } from "@/data/types";
+import { stringifyArgsFromType } from "@/data/utils";
 import { Group, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 const regex_for_verse = /\[Verse:(.*)\]/g;
@@ -97,17 +98,18 @@ export function partialLineEditFromStringAndType(
 ): WithRequired<Partial<ILineEditsGroup>, "args"> {
   let args1 = regexFromType(type).exec(line);
   if (!args1) return { args: ["Error"] };
+  let stringifyArgs = stringifyArgsFromType(type);
   let args2: string[] = args1
     .map((arg) => arg.trim())
-    .slice(1, 2 + Number(isTypeHavingSecondArgument(type)));
+    .slice(1, 1 + stringifyArgs.length);
   console.log("args2:", args2);
-  let args: ILineEditsGroup["args"] =
-    type === TypeEnum.Verse ? [parseInt(args2[0]), args2[1]] : args2;
+  let args: ILineEditsGroup["args"] = [];
+  let i = 0;
+  for (let e of stringifyArgs) {
+    args.push(args2[i]);
+    i+=1
+  }
   return {
     args: args,
   };
-}
-
-function isTypeHavingSecondArgument(type: TypeEnum) {
-  return type === TypeEnum.Verse; //|| type === TypeEnum.Chorus;
 }
