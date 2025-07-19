@@ -42,9 +42,16 @@ function CollapsableLineEditSection({
                 return newLines;
               });
               setReloadCount(reloadCount + 1);
+              setFocusedLine(index + 1);
             }}
             onLastBackSpacePressed={function (): void {
-              throw new Error("Function not implemented.");
+              setNewLines((prevLines) => {
+                const newLines = [...prevLines];
+                newLines.splice(index - 1, 1);
+                console.log("Backspace key pressed:", newLines);
+                return newLines;
+              });
+              setReloadCount(reloadCount + 1);
             }}
           />
         ))}
