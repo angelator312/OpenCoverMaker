@@ -8,7 +8,7 @@ import {
   typeAndArgsToString,
   typeFromString,
 } from "@/components/SquareBracketLineEdit";
-import { save_song } from "@/data/LocalStorageSave";
+import { load_song, save_song } from "@/data/LocalStorageSave";
 import { selectOptionsForSquareBrackets } from "@/data/names";
 import { ILineEditsGroup, SongDetails } from "@/data/types";
 import {
@@ -70,19 +70,14 @@ function fromLinesToLineEditGroups(
 export default function EditorPage() {
   const [searchQuery, setSearchQuery] = useState<SongDetails>({});
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const router = useRouter();
-
   const updateSearchQuery = (updatedQuery: SongDetails) => {
+    console.log("updatedQuery:", updatedQuery);
     save_song(updatedQuery);
   };
 
-  const [newLyrics, setNewLyrics] = useState<string>(
-    searchParams.get(new_lyrics_par) ?? "",
-  );
-  const [originalLyrics, setOriginalLyrics] = useState<string>(
-    searchParams.get(original_lyrics_par) ?? "",
-  );
+  const [newLyrics, setNewLyrics] = useState<string>("");
+  const [originalLyrics, setOriginalLyrics] = useState<string>("");
   const [lineEditGroups, setLineEditGroups] = useState<ILineEditsGroup[]>([]);
   const [reloadCount, setReloadCount] = useState<number>(0);
 
@@ -94,6 +89,23 @@ export default function EditorPage() {
     console.log("newLyrics:", newLyrics);
     setLineEditGroups(fromLinesToLineEditGroups(originalLyrics, newLyrics));
   }, [originalLyrics, newLyrics]);
+
+  useEffect(() => {
+    const songId = searchParams.get("key") ?? "";
+    let song = load_song(songId);
+    if (song) {
+      console.log("load song:", song);
+      setSearchQuery(song);
+      const tmp = fromLinesToLineEditGroups(
+        song.originalLyrics,
+        song.newLyrics,
+      );
+      setLineEditGroups(tmp);
+      setReloadCount(reloadCount + 1);
+    } else {
+      router.push("/");
+    }
+  }, [searchParams.get("key")]);
   //TODO:Optimize the following
   const updateNewLyrics = useCallback(() => {
     //TODO:Make sure the new lyrics are with valid [] format
@@ -114,7 +126,7 @@ export default function EditorPage() {
       <Group>
         <Button
           onClick={() => {
-            updateNewLyrics();
+            updateNewLyrics(lineEditGroups);
           }}
         >
           Save in URL
