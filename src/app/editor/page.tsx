@@ -135,7 +135,7 @@ export default function EditorPage() {
     updateSearchQuery(tmp2);
   }, [lineEditGroups]); // eslint-disable-line
   return (
-    <AppShellTemplate is_in_editor={true}>
+    <AppShellTemplate header="Editor">
       <Group>
         <Button onClick={toggle_settings}>
           {opened_settings ? "Hide" : "Show"} settings

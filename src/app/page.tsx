@@ -1,6 +1,8 @@
+"use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
 import { get_songs } from "@/data/LocalStorageSave";
 import { Stack } from "@mantine/core";
+import Link from "next/link";
 
 export default function HomePage() {
   const songs = get_songs();
@@ -9,10 +11,10 @@ export default function HomePage() {
       <div>Home page</div>
       <Stack>
         {songs.map((song) => (
-          <div key={song.key}>
+          <Link href={`/editor?key=${song.key}`} key={song.key}>
             {song.newSongName} by {song.newArtist} cover of{" "}
             {song.originalSongName} by {song.originalArtist}
-          </div>
+          </Link>
         ))}
       </Stack>
     </AppShellTemplate>

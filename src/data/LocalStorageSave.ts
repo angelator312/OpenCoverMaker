@@ -20,9 +20,9 @@ export function delete_song(key: string) {
 }
 
 export function get_songs(): SongDetails[] {
-  return Object.keys(localStorage)
-    .map((key) => load_song(key))
-    .filter((song) => song !== null);
+  return JSON.parse(localStorage.getItem(all_songs_key) ?? "[]")
+    .map((key: string) => load_song(key))
+    .filter((song: SongDetails | null) => song !== null);
 }
 
 function _add_song(key: string) {
