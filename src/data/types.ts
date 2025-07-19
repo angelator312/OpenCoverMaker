@@ -1,10 +1,20 @@
-import { TypeEnum } from "./enums";
+import { TypeEnum, GenreEnum } from "./enums";
 
 export interface ILineEditsGroup {
   originalLyrics: string;
   newLyrics: string;
   type: TypeEnum;
   args: ArgTypes[];
+}
+
+export interface SongDetails {
+  originalLyrics: string;
+  newLyrics: string;
+  newArtist: string;
+  newSongName: string;
+  newGenre: GenreEnum;
+  originalArtist: string;
+  originalSongName: string;
 }
 
 // interface IVerseLineEditsGroup extends IBaseLineEditsGroup {
