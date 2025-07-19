@@ -3,7 +3,7 @@ import { selectOptionsForSquareBrackets } from "@/data/names";
 import { defaultArgsFromType } from "@/data/utils";
 import { Group, Select, Button } from "@mantine/core";
 import { useState } from "react";
-import { typeFromString } from "./SquareBracketLineEdit";
+import { typeFromName } from "./SquareBracketLineEdit";
 
 export default function AddButton({
   addLyrics,
@@ -14,7 +14,8 @@ export default function AddButton({
 
   const handleAdd = () => {
     if (value) {
-      const type = typeFromString(value);
+      const type = typeFromName(value);
+      console.log("type:", type);
       addLyrics(type, defaultArgsFromType(type));
       setValue(null);
     }

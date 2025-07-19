@@ -217,6 +217,7 @@ export default function EditorPage() {
           setLineEditGroups((prev) => {
             const newGroups = [...prev];
             newGroups.push({ type, args, newLyrics: "", originalLyrics: "" });
+            console.log("newGroups:", newGroups, "type:", type);
             return newGroups;
           });
         }}

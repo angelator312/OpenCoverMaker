@@ -77,7 +77,7 @@ function regexFromType(type: TypeEnum) {
   return regexes[type];
 }
 
-function typeFromName(name: string) {
+export function typeFromName(name: string) {
   if (name.startsWith("[")) name = name.slice(1);
   if (name.endsWith("]")) name = name.slice(0, -1);
   return selectOptionsForSquareBrackets.indexOf(name);
