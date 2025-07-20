@@ -2,7 +2,6 @@
 import AddButton from "@/components/AddButton";
 import AppShellTemplate from "@/components/AppShellTemplate";
 import LineEditGroup from "@/components/LineEditGroup";
-import PasteButton from "@/components/PasteButton";
 import {
   partialLineEditFromStringAndType,
   typeAndArgsToString,
@@ -10,29 +9,10 @@ import {
 } from "@/components/SquareBracketLineEdit";
 import { GenreEnum } from "@/data/enums";
 import { load_song, save_song } from "@/data/LocalStorageSave";
-import { selectOptionsForSquareBrackets } from "@/data/names";
 import { ILineEditsGroup, SongDetails } from "@/data/types";
-import {
-  Button,
-  Collapse,
-  Group,
-  Select,
-  Space,
-  Stack,
-  Textarea,
-  TextInput,
-  Title,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-
-// type QueryType = { [key: string]: string };
-const original_song_name_par = "org_song_name";
-const new_song_name_par = "new_song_name";
-const url_lyrics_par = "url_for_lyrics";
-const original_lyrics_par = "org_lyrics";
-const new_lyrics_par = "new_lyrics";
+import { Button, Group, Space, Stack, Title } from "@mantine/core";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 const regexForSquareBrackets = /(\[.*\]\n)/gm;
 

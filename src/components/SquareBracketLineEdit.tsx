@@ -126,7 +126,8 @@ export function partialLineEditFromStringAndType(
   let stringifyArgs = stringifyArgsFromType(type);
   let args2: string[] = args1
     .map((arg) => arg.trim())
-    .slice(1, 1 + stringifyArgs.length);
+    .slice(1, 2)[0]
+    .split(",");
   console.log("args2:", args2);
   let args: ArgTypes[] = [];
   let i = 0;
