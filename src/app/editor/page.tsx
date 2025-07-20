@@ -13,7 +13,7 @@ import {
   partialLineEditFromStringAndType,
   squareLineFromTypeAndArgs,
 } from "@/data/utils";
-import { Button, Group, Space, Stack, Title } from "@mantine/core";
+import { Button, Group, Space, Stack, Title, Tooltip } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -122,7 +122,14 @@ export default function EditorPage() {
   return (
     <AppShellTemplate header="Editor">
       <Group>
-        <Button onClick={save}>Save</Button>
+        <Tooltip label="Ctrl+S">
+          <Button onClick={save}>Save</Button>
+        </Tooltip>
+        <Button
+          onClick={() => router.push("/editSongCover?key=" + searchQuery.key)}
+        >
+          Edit Metadata of the song
+        </Button>
       </Group>
       <Space h="md" />
       <Title order={3}>New lyrics</Title>
