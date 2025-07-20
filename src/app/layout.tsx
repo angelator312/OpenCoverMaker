@@ -6,6 +6,7 @@ import {
   mantineHtmlProps,
 } from "@mantine/core";
 import { theme } from "../theme";
+import { AtomProvider } from "@/components/AtomProvider";
 
 export const metadata = {
   title: "Mantine Next.js template",
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider defaultColorScheme="auto" theme={theme}>
-          {children}
+          <AtomProvider>{children}</AtomProvider>
         </MantineProvider>
       </body>
     </html>
