@@ -1,6 +1,6 @@
 import { TypeEnum } from "@/data/enums";
 import { selectOptionsForSquareBrackets } from "@/data/names";
-import { ArgTypes, ILineEditsGroup, WithRequired } from "@/data/types";
+import { ILineEditsGroup, WithRequired } from "@/data/types";
 import { stringifyArgsFromType } from "@/data/utils";
 import { Group, NumberInput, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
@@ -98,10 +98,6 @@ export function typeFromString(str: string) {
   return TypeEnum.Verse;
 }
 
-function regexFromType(type: TypeEnum) {
-  return regexes[type];
-}
-
 export function typeFromName(name: string) {
   if (name.startsWith("[")) name = name.slice(1);
   if (name.endsWith("]")) name = name.slice(0, -1);
@@ -114,42 +110,4 @@ export function typeAndArgsToString(
   const name = selectOptionsForSquareBrackets[lineEditGroup.type];
   console.log(`[${name}:${lineEditGroup.args.join(",")}]`);
   return `[${name}:${lineEditGroup.args.join(",")}]`;
-}
-
-export function partialLineEditFromStringAndType(
-  line: string,
-  type: TypeEnum,
-): WithRequired<Partial<ILineEditsGroup>, "args"> {
-  let args1 = regexFromType(type).exec(line);
-  if (!args1) return { args: ["Error"] };
-  let stringifyArgs = stringifyArgsFromType(type);
-  let args2: string[] = args1
-    .map((arg) => arg.trim())
-    .slice(1, 2)[0]
-    .split(",");
-  console.log("args2:", args2);
-  let args: ArgTypes[] = [];
-  let i = 0;
-  for (let e of stringifyArgs) {
-    let tmp1: ArgTypes;
-    switch (e) {
-      case "string":
-        tmp1 = args2[i];
-        break;
-      case "number":
-        tmp1 = parseInt(args2[i]);
-        break;
-      // case "boolean":
-      //   tmp1 = args2[i] === "true";
-      //   break;
-      default:
-        tmp1 = args2[i];
-        break;
-    }
-    args.push(tmp1);
-    i += 1;
-  }
-  return {
-    args: args,
-  };
 }

@@ -3,13 +3,13 @@ import AddButton from "@/components/AddButton";
 import AppShellTemplate from "@/components/AppShellTemplate";
 import LineEditGroup from "@/components/LineEditGroup";
 import {
-  partialLineEditFromStringAndType,
   typeAndArgsToString,
   typeFromString,
 } from "@/components/SquareBracketLineEdit";
 import { GenreEnum } from "@/data/enums";
 import { load_song, save_song } from "@/data/LocalStorageSave";
 import { ILineEditsGroup, SongDetails } from "@/data/types";
+import { partialLineEditFromStringAndType } from "@/data/utils";
 import { Button, Group, Space, Stack, Title } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";

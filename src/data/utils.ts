@@ -1,6 +1,7 @@
+import { regexes } from "@/components/SquareBracketLineEdit";
 import { TypeEnum } from "./enums";
 import { selectOptionsForSquareBrackets } from "./names";
-import { ArgTypes } from "./types";
+import { ArgTypes, ILineEditsGroup, WithRequired } from "./types";
 
 export function stringifyArgsFromType(type: TypeEnum): string[] {
   return args[type];
@@ -76,4 +77,45 @@ export function squareLineFromTypeAndArgs(
   else if (args.length > 1 && stringifyTypes[1] == "number")
     argsString += args[1].toString();
   return "[" + selectOptionsForSquareBrackets[type] + argsString + "]\n";
+}
+
+export function partialLineEditFromStringAndType(
+  line: string,
+  type: TypeEnum,
+): WithRequired<Partial<ILineEditsGroup>, "args"> {
+  let args1 = regexFromType(type).exec(line);
+  if (!args1) return { args: ["Error"] };
+  let stringifyArgs = stringifyArgsFromType(type);
+  let args2: string[] = args1
+    .map((arg) => arg.trim())
+    .slice(1, 2)[0]
+    .split(",");
+  console.log("args2:", args2);
+  let args: ArgTypes[] = [];
+  let i = 0;
+  for (let e of stringifyArgs) {
+    let tmp1: ArgTypes;
+    switch (e) {
+      case "string":
+        tmp1 = args2[i];
+        break;
+      case "number":
+        tmp1 = parseInt(args2[i]);
+        break;
+      // case "boolean":
+      //   tmp1 = args2[i] === "true";
+      //   break;
+      default:
+        tmp1 = args2[i];
+        break;
+    }
+    args.push(tmp1);
+    i += 1;
+  }
+  return {
+    args: args,
+  };
+}
+function regexFromType(type: TypeEnum) {
+  return regexes[type];
 }
