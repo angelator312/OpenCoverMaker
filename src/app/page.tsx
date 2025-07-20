@@ -2,7 +2,7 @@
 import AppShellTemplate from "@/components/AppShellTemplate";
 import { get_songs } from "@/data/LocalStorageSave";
 import { SongDetails } from "@/data/types";
-import { Stack } from "@mantine/core";
+import { Stack, Title } from "@mantine/core";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -16,7 +16,7 @@ export default function HomePage() {
   }, [localStorage]);
   return (
     <AppShellTemplate>
-      <div>Home page</div>
+      <Title>Home page</Title>
       <Stack>
         {songs.map((song) => (
           <Link href={`/editor?key=${song.key}`} key={song.key}>
