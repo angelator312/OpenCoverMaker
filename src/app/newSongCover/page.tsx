@@ -1,7 +1,6 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
 import { EasyEditOfLyrics } from "@/components/EasyEditOfLyrics";
-import PasteButton from "@/components/PasteButton";
 import SettingsOfSongCover from "@/components/SettingsOfSongCover";
 import { GenreEnum } from "@/data/enums";
 import { save_song } from "@/data/LocalStorageSave";
