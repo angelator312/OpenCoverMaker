@@ -1,4 +1,4 @@
 import { atom } from "jotai";
-import { ILineEditsGroup } from "./types";
+import { WorkingStats } from "./types";
 
-export const lineEditGroup = atom<ILineEditsGroup[]>([]);
+export const workingStats = atom<WorkingStats>([]);
