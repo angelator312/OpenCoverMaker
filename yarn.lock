@@ -592,6 +592,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pluralize@npm:^0.0.29":
+  version: 0.0.29
+  resolution: "@types/pluralize@npm:0.0.29"
+  checksum: 10c0/840796fa1db158eb4d9787758d134736e29d9a8035f5b0cbad06e3801fc64b79112ba944c83f9a1a5b94da08703f505b8315b7e0f28bfc0f8e9e1ccfead7b083
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:19.0.4":
   version: 19.0.4
   resolution: "@types/react-dom@npm:19.0.4"
@@ -3290,6 +3297,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"normalize-strings@npm:^1.1.0":
+  version: 1.1.1
+  resolution: "normalize-strings@npm:1.1.1"
+  checksum: 10c0/5090299b495353ea435c31feb3b1b9684a1034b599fd29f1babf210b417c286683dc52a035ddc5cff682148df1e2641a9c40be29254d2b609e27a5e09134657d
+  languageName: node
+  linkType: hard
+
 "object-assign@npm:^4.1.1":
   version: 4.1.1
   resolution: "object-assign@npm:4.1.1"
@@ -3445,6 +3459,7 @@ __metadata:
     postcss-simple-vars: "npm:^7.0.1"
     react: "npm:19.1.0"
     react-dom: "npm:19.1.0"
+    syllable: "npm:^5.0.1"
     typescript: "npm:5.8.2"
   languageName: unknown
   linkType: soft
@@ -3558,6 +3573,13 @@ __metadata:
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 10c0/26c02b8d06f03206fc2ab8d16f19960f2ff9e81a658f831ecb656d8f17d9edc799e8364b1f4a7873e89d9702dff96204be0fa26fe4181f6843f040f819dac4be
+  languageName: node
+  linkType: hard
+
+"pluralize@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "pluralize@npm:8.0.0"
+  checksum: 10c0/2044cfc34b2e8c88b73379ea4a36fc577db04f651c2909041b054c981cd863dd5373ebd030123ab058d194ae615d3a97cfdac653991e499d10caf592e8b3dc33
   languageName: node
   linkType: hard
 
@@ -4497,6 +4519,19 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 10c0/6c4032340701a9950865f7ae8ef38578d8d7053f5e10518076e6554a9381fa91bd9c6850193695c141f32b21f979c985db07265a758867bac95de05f7d8aeb39
+  languageName: node
+  linkType: hard
+
+"syllable@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "syllable@npm:5.0.1"
+  dependencies:
+    "@types/pluralize": "npm:^0.0.29"
+    normalize-strings: "npm:^1.1.0"
+    pluralize: "npm:^8.0.0"
+  bin:
+    syllable: cli.js
+  checksum: 10c0/942eef863c48ccf45fb8b608fb4ce811883ed4cb84050c57d87277cec00b666da97cc61bc7141f0238b98232827c0ca7deecc9e7ee4f24f2b1074c7ecdcdb771
   languageName: node
   linkType: hard
 
