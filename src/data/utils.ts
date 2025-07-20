@@ -45,7 +45,6 @@ let args: string[][] = [
   ArgsOnPrechorus,
   ArgsOnIntro,
   ArgsOnOutro,
-  ArgsOnTag,
   ArgsOnComment,
 ];
 export function makeSongKey(length: number) {

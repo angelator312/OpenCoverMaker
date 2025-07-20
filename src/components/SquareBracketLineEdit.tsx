@@ -94,7 +94,6 @@ export function typeFromString(str: string) {
   if (str.match(regex_for_prechorus)) return TypeEnum.Prechorus;
   if (str.match(regex_for_intro)) return TypeEnum.Intro;
   if (str.match(regex_for_outro)) return TypeEnum.Outro;
-  if (str.match(regex_for_tag)) return TypeEnum.Tag;
   if (str.match(regex_for_comment)) return TypeEnum.Comment;
   return TypeEnum.Verse;
 }
