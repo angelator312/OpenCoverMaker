@@ -14,6 +14,7 @@ import {
   squareLineFromTypeAndArgs,
 } from "@/data/utils";
 import { Button, Group, Space, Stack, Title } from "@mantine/core";
+import { useHotkeys } from "@mantine/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
@@ -117,6 +118,7 @@ export default function EditorPage() {
   const save = () => {
     updateNewLyrics();
   };
+  useHotkeys([["ctrl+S", () => save()]], []);
   return (
     <AppShellTemplate header="Editor">
       <Group>
