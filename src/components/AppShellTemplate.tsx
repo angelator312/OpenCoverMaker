@@ -2,12 +2,15 @@
 import { AppShell, Burger, Center, Group, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
+import { MenuForEditor } from "./StatsMenuForEditor";
 export default function AppShellTemplate({
   children,
   header = "",
+  is_in_editor = false,
 }: {
   header?: string;
   children: React.ReactNode;
+  is_in_editor?: boolean;
 }) {
   const [opened, { toggle }] = useDisclosure(false);
   return (
@@ -19,9 +22,8 @@ export default function AppShellTemplate({
       <AppShell.Header>
         <Group h="100%" px="md">
           <Burger opened={opened} onClick={toggle} />
-          <Center>
-            <Title>OpenCoverMaker {header}</Title>
-          </Center>
+          <Title>OpenCoverMaker {header}</Title>
+          {is_in_editor && <MenuForEditor />}
           {/* <MantineLogo size={30} /> */}
         </Group>
       </AppShell.Header>

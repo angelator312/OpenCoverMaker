@@ -119,7 +119,7 @@ export default function EditorPage() {
   };
   useHotkeys([["ctrl+S", () => save()]], []);
   return (
-    <AppShellTemplate header="Editor">
+    <AppShellTemplate header="Editor" is_in_editor>
       <Group>
         <Tooltip label="Ctrl+S">
           <Button onClick={save}>Save</Button>
