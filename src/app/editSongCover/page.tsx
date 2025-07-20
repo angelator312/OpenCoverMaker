@@ -21,7 +21,7 @@ import { useHotkeys } from "@mantine/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function NewCoverPage() {
+export default function EditCoverPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [songDetails, setSongDetails] = useState<SongDetails>({

@@ -1,6 +1,8 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
+import { EasyEditOfLyrics } from "@/components/EasyEditOfLyrics";
 import PasteButton from "@/components/PasteButton";
+import SettingsOfSongCover from "@/components/SettingsOfSongCover";
 import { GenreEnum } from "@/data/enums";
 import { save_song } from "@/data/LocalStorageSave";
 import { SongDetails } from "@/data/types";
@@ -19,68 +21,36 @@ import { useState } from "react";
 export default function NewCoverPage() {
   const router = useRouter();
 
-  const [originalLyrics, setOriginalLyrics] = useState("");
-  const [newSongName, setNewSongName] = useState("");
-  const [newArtistName, setNewArtistName] = useState("");
-  const [originalArtistName, setOriginalArtistName] = useState("");
-  const [originalSongName, setOriginalSongName] = useState("");
-  const [URLForLyrics, setURLForLyrics] = useState("");
-  const [newGenre, setNewGenre] = useState(GenreEnum.Pop);
-  const [key, setKey] = useState(makeSongKey(25));
+  const [songDetails, setSongDetails] = useState<SongDetails>({
+    newSongName: "",
+    newArtist: "",
+    newGenre: GenreEnum.Pop,
+    newLyrics: "",
+    originalArtist: "",
+    originalLyrics: "",
+    originalSongName: "",
+    URLForLyrics: "",
+    key: makeSongKey(25),
+  });
   return (
     <AppShellTemplate>
       <Title>New Song cover</Title>
-      <Group>
-        <TextInput
-          value={originalSongName}
-          onChange={(e) => setOriginalSongName(e.target.value)}
-          label="Name of the original song"
-          description="Input the name of the original song."
-        />
-        <TextInput
-          value={newSongName}
-          onChange={(e) => setNewSongName(e.target.value)}
-          label="Name of the new song"
-          description="Input the name of the new song."
-        />
-        <TextInput
-          value={URLForLyrics}
-          onChange={(e) => setURLForLyrics(e.target.value)}
-          label="URL for lyrics"
-          description="Paste URL for lyrics."
-          placeholder="genius.com or azlyrics.com/ "
-          disabled
-        />
-      </Group>
+      <SettingsOfSongCover song={songDetails} setSong={setSongDetails} />
       <Space h="md" />
-      <Group>
-        <Textarea
-          value={originalLyrics}
-          onChange={(e) => setOriginalLyrics(e.target.value)}
-          label="Original Lyrics"
-          description="Paste the original lyrics of the song" // Think about better description
-          autosize
-          resize="both"
-        />
-        <PasteButton onPasteClicked={(e) => setOriginalLyrics(e)} />
-      </Group>
+      <EasyEditOfLyrics
+        originalLyrics={songDetails.originalLyrics}
+        setOriginalLyrics={(e) =>
+          setSongDetails({ ...songDetails, originalLyrics: e })
+        }
+        label="Original Lyrics"
+        description="Paste the original lyrics of the song" // Think about better description
+      />
       <Space h="md" />
       <Button
         onClick={() => {
-          let songDetails: SongDetails = {
-            originalSongName,
-            originalArtist: originalArtistName,
-            newSongName,
-            URLForLyrics,
-            originalLyrics,
-            newLyrics: originalLyrics,
-            newArtist: newArtistName,
-            newGenre,
-            key,
-          };
           console.log(songDetails);
           save_song(songDetails);
-          router.push("/editor?key=" + key);
+          router.push("/editor?key=" + songDetails.key);
           // Implement logic to create a new song cover using songDetails
         }}
       >

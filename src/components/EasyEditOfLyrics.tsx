@@ -9,7 +9,7 @@ export function EasyEditOfLyrics({
   description,
 }: {
   originalLyrics: string;
-  setOriginalLyrics: React.Dispatch<React.SetStateAction<string>>;
+  setOriginalLyrics: (value: string) => void;
   label: string;
   description: string;
 }) {
