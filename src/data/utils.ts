@@ -47,6 +47,7 @@ let args: string[][] = [
   ArgsOnOutro,
   ArgsOnComment,
 ];
+
 export function makeSongKey(length: number) {
   var result = "";
   var characters =
@@ -56,4 +57,23 @@ export function makeSongKey(length: number) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+export function squareLineFromTypeAndArgs(
+  type: TypeEnum,
+  args: ArgTypes[],
+): string {
+  let argsString = "";
+  let stringifyTypes = stringifyArgsFromType(type);
+  if (args.length > 1 && stringifyTypes[0] == "number")
+    argsString = args[0].toString() + ": ";
+  else if (args.length > 0 && stringifyTypes[0] == "number")
+    argsString = ": " + args[0].toString();
+  else if (args.length > 0 && stringifyTypes[0] == "string")
+    argsString = args[0].toString();
+  if (args.length > 1 && stringifyTypes[1] == "string")
+    argsString += args[1].toString();
+  else if (args.length > 1 && stringifyTypes[1] == "number")
+    argsString += args[1].toString();
+  return "[" + selectOptionsForSquareBrackets[type] + argsString + "]\n";
 }
