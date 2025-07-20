@@ -2,10 +2,9 @@ export const selectOptionsForSquareBrackets = [
   "Verse",
   "Chorus",
   "Bridge",
-  "Pre-chorus",
+  "Pre-Chorus",
   "Intro",
   "Outro",
-  "Tag",
   "Comment",
 ];
 export const genres = [

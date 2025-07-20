@@ -29,9 +29,9 @@ export function defaultLyricsLineFromType(type: TypeEnum): string {
   return "[" + selectOptionsForSquareBrackets[type] + args.join(",") + "]\n";
 }
 let ArgsOnVerse = ["number", "string"];
-let ArgsOnChorus = ["number", "string"];
+let ArgsOnChorus = ["string"];
 let ArgsOnBridge: string[] = [];
-let ArgsOnPrechorus = ["number", "string"];
+let ArgsOnPrechorus = ["string"];
 let ArgsOnIntro: string[] = [];
 let ArgsOnOutro: string[] = [];
 // [tag name]
