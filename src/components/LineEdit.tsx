@@ -1,10 +1,11 @@
+import { workingStatsAtom } from "@/data/atoms";
 import { Button, Group, Text, TextInput } from "@mantine/core";
+import { useAtomValue } from "jotai";
 import React, { useCallback, useMemo } from "react";
 import { useEffect, useState } from "react";
+import CharecterCounter from "./StatCounters/CharecterCounter";
 
-const charectersDifferenceForYellow = 3;
 const wordsDifferenceForYellow = 3;
-const charectersDifferenceForRed = 10;
 const wordsDifferenceForRed = 10;
 export let LineEdit = React.memo(LineEditComp);
 
@@ -25,20 +26,15 @@ function LineEditComp({
   onEnterKeyPressed: () => void;
   onLastBackSpacePressed: () => void;
 }) {
+  const workingStats = useAtomValue(workingStatsAtom);
   const [originalCharectersCount, setOriginalCharectersCount] =
     useState<number>(org_lyrics.length);
-  const [newCharectersCount, setNewCharectersCount] = useState<number>(
-    new_lyrics.length,
-  );
 
   const [newWordsCount, setNewWordsCount] = useState<number>(0);
   const [originalWordsCount, setOriginalWordsCount] = useState<number>(0);
 
-  const [differenceOfCharecters, setDifferenceOfCharecters] =
-    useState<number>(0);
   const [differenceOfWords, setDifferenceOfWords] = useState<number>(0);
 
-  const [colourForCharecters, setColourForCharecters] = useState<string>("");
   const [colourForWords, setColourForWords] = useState<string>("");
 
   useEffect(() => {
@@ -49,14 +45,9 @@ function LineEditComp({
 
   useEffect(() => {
     setNewWordsCount(newWords);
-    setNewCharectersCount(new_lyrics.length);
     update();
   }, [new_lyrics]); // eslint-disable-line
 
-  const absoluteDifferenceOfCharecters = useMemo(
-    () => Math.abs(originalCharectersCount - newCharectersCount),
-    [originalCharectersCount, newCharectersCount],
-  );
   const absoluteDifferenceOfWords = useMemo(
     () => Math.abs(originalWordsCount - newWordsCount),
     [originalWordsCount, newWordsCount],
@@ -66,19 +57,8 @@ function LineEditComp({
   const orgWords = useMemo(() => org_lyrics.split(/\s+/).length, [org_lyrics]);
 
   const update = useCallback(() => {
-    setDifferenceOfCharecters(absoluteDifferenceOfCharecters);
     setDifferenceOfWords(absoluteDifferenceOfWords);
-  }, [absoluteDifferenceOfCharecters, absoluteDifferenceOfWords]);
-
-  useEffect(() => {
-    setColourForCharecters(
-      differenceOfCharecters < charectersDifferenceForYellow
-        ? "green"
-        : differenceOfCharecters < charectersDifferenceForRed
-          ? "yellow"
-          : "red",
-    );
-  }, [differenceOfCharecters]);
+  }, [absoluteDifferenceOfWords]);
 
   useEffect(() => {
     setColourForWords(
@@ -109,10 +89,14 @@ function LineEditComp({
         // inputSize="100"
       />
       <Group>
-        <Text>Characters</Text>
-        <Button color={colourForCharecters}> {newCharectersCount}</Button>
         <Text>Words</Text>
         <Button color={colourForWords}> {newWordsCount}</Button>
+        {workingStats.characters && (
+          <CharecterCounter
+            originalLyrics={org_lyrics}
+            newLyrics={new_lyrics}
+          />
+        )}
       </Group>
     </Group>
   );
