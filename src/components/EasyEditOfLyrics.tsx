@@ -1,4 +1,4 @@
-import { Group, Textarea } from "@mantine/core";
+import { Group, Textarea, Tooltip } from "@mantine/core";
 import { useEffect, useState } from "react";
 import PasteButton from "./PasteButton";
 

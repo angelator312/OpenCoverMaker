@@ -54,9 +54,11 @@ export default function EditCoverPage() {
         <Tooltip label="Ctrl+S">
           <Button onClick={save}>Save Song Cover</Button>
         </Tooltip>
-        <Button onClick={() => router.push("/editor?key=" + key)}>
-          Edit Lyrics
-        </Button>
+        <Tooltip label="Open editor for lyrics">
+          <Button onClick={() => router.push("/editor?key=" + key)}>
+            Edit Lyrics
+          </Button>
+        </Tooltip>
       </Group>
       <Space h="md" />
       <SettingsOfSongCover song={songDetails} setSong={setSongDetails} />

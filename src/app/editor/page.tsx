@@ -74,7 +74,6 @@ export default function EditorPage() {
   const [newLyrics, setNewLyrics] = useState<string>("");
   const [originalLyrics, setOriginalLyrics] = useState<string>("");
   const [lineEditGroups, setLineEditGroups] = useState<ILineEditsGroup[]>([]);
-  const [reloadCount, setReloadCount] = useState<number>(0);
 
   // eslint-disable-next-line
   useEffect(() => {
@@ -125,16 +124,18 @@ export default function EditorPage() {
         <Tooltip label="Ctrl+S">
           <Button onClick={save}>Save</Button>
         </Tooltip>
-        <Button
-          onClick={() => router.push("/editSongCover?key=" + searchQuery.key)}
-        >
-          Edit Metadata of the song
-        </Button>
+        <Tooltip label="e.g. song name, artist name">
+          <Button
+            onClick={() => router.push("/editSongCover?key=" + searchQuery.key)}
+          >
+            Edit song details
+          </Button>
+        </Tooltip>
       </Group>
       <Space h="md" />
       <Title order={3}>New lyrics</Title>
       <Space h="md" />
-      <Stack key={"reloads:" + reloadCount}>
+      <Stack>
         {lineEditGroups.map((e: ILineEditsGroup, i: number) => {
           return (
             <LineEditGroup
