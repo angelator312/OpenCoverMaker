@@ -4,23 +4,23 @@ import { ArgTypes, ILineEditsGroup, WithRequired } from "@/data/types";
 import { stringifyArgsFromType } from "@/data/utils";
 import { Group, NumberInput, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
-const regex_for_verse = /\[Verse:(.*)\]/g;
-const regex_for_chorus = /\[Chorus:(.*)\]/g;
-const regex_for_bridge = /\[Bridge:(.*)\]/g;
-const regex_for_prechorus = /\[Pre-chorus:(.*)\]/g;
-const regex_for_intro = /\[Intro ()\]/g;
-const regex_for_outro = /\[Outro ()\]/g;
-const regex_for_tag = /\[Tag:(.*)\]/g;
-const regex_for_comment = /\[Comment:(.*)\]/g;
-const regexes = [
-  regex_for_verse,
-  regex_for_chorus,
-  regex_for_bridge,
-  regex_for_prechorus,
-  regex_for_intro,
-  regex_for_outro,
-  regex_for_tag,
-  regex_for_comment,
+export const regexForVerse = /\[Verse (\d+):(.*)\]/g;
+export const regexForChorus = /\[Chorus (\d+):(.*)\]/g;
+export const regexForBridge = /\[Bridge (\d+):(.*)\]/g;
+export const regexForPrechorus = /\[Pre-chorus (\d+):(.*)\]/g;
+export const regexForIntro = /\[Intro ()\]/g;
+export const regexForOutro = /\[Outro ()\]/g;
+export const regexForTag = /\[Tag:(.*)\]/g;
+export const regexForComment = /\[Comment:(.*)\]/g;
+export const regexes = [
+  regexForVerse,
+  regexForChorus,
+  regexForBridge,
+  regexForPrechorus,
+  regexForIntro,
+  regexForOutro,
+  regexForTag,
+  regexForComment,
 ];
 
 export default function SquareBracketLineEdit({
@@ -88,13 +88,13 @@ export default function SquareBracketLineEdit({
 }
 
 export function typeFromString(str: string) {
-  if (str.match(regex_for_verse)) return TypeEnum.Verse;
-  if (str.match(regex_for_chorus)) return TypeEnum.Chorus;
-  if (str.match(regex_for_bridge)) return TypeEnum.Bridge;
-  if (str.match(regex_for_prechorus)) return TypeEnum.Prechorus;
-  if (str.match(regex_for_intro)) return TypeEnum.Intro;
-  if (str.match(regex_for_outro)) return TypeEnum.Outro;
-  if (str.match(regex_for_comment)) return TypeEnum.Comment;
+  if (str.match(regexForVerse)) return TypeEnum.Verse;
+  if (str.match(regexForChorus)) return TypeEnum.Chorus;
+  if (str.match(regexForBridge)) return TypeEnum.Bridge;
+  if (str.match(regexForPrechorus)) return TypeEnum.Prechorus;
+  if (str.match(regexForIntro)) return TypeEnum.Intro;
+  if (str.match(regexForOutro)) return TypeEnum.Outro;
+  if (str.match(regexForComment)) return TypeEnum.Comment;
   return TypeEnum.Verse;
 }
 

@@ -5,7 +5,14 @@ import { GenreEnum } from "@/data/enums";
 import { save_song } from "@/data/LocalStorageSave";
 import { SongDetails } from "@/data/types";
 import { makeSongKey } from "@/data/utils";
-import { Group, TextInput, Space, Button, Textarea } from "@mantine/core";
+import {
+  Group,
+  TextInput,
+  Space,
+  Button,
+  Textarea,
+  Title,
+} from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -22,7 +29,7 @@ export default function NewCoverPage() {
   const [key, setKey] = useState(makeSongKey(25));
   return (
     <AppShellTemplate>
-      <h1>New Song cover</h1>
+      <Title>New Song cover</Title>
       <Group>
         <TextInput
           value={originalSongName}
