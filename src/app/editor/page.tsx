@@ -9,7 +9,10 @@ import {
 import { GenreEnum } from "@/data/enums";
 import { load_song, save_song } from "@/data/LocalStorageSave";
 import { ILineEditsGroup, SongDetails } from "@/data/types";
-import { partialLineEditFromStringAndType } from "@/data/utils";
+import {
+  partialLineEditFromStringAndType,
+  squareLineFromTypeAndArgs,
+} from "@/data/utils";
 import { Button, Group, Space, Stack, Title } from "@mantine/core";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -101,7 +104,7 @@ export default function EditorPage() {
     //TODO:Make sure the new lyrics are with valid [] format
     const tmp: string = lineEditGroups
       .map((group) => {
-        let tmp2 = typeAndArgsToString(group) + "\n";
+        let tmp2 = squareLineFromTypeAndArgs(group.type, group.args) + "\n";
         // if (tmp2.at(-1) != "\n" && group.newLyrics[0] != "\n") tmp2 += "\n";
         return tmp2 + group.newLyrics;
       })
@@ -111,16 +114,13 @@ export default function EditorPage() {
     const tmp2: SongDetails = { ...searchQuery, newLyrics: tmp };
     updateSearchQuery(tmp2);
   }, [lineEditGroups]); // eslint-disable-line
+  const save = () => {
+    updateNewLyrics();
+  };
   return (
     <AppShellTemplate header="Editor">
       <Group>
-        <Button
-          onClick={() => {
-            updateNewLyrics();
-          }}
-        >
-          Save in URL
-        </Button>
+        <Button onClick={save}>Save</Button>
       </Group>
       <Space h="md" />
       <Title order={3}>New lyrics</Title>

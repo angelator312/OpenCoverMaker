@@ -64,14 +64,14 @@ export function squareLineFromTypeAndArgs(
   type: TypeEnum,
   args: ArgTypes[],
 ): string {
-  let argsString = "";
+  let argsString = " ";
   let stringifyTypes = stringifyArgsFromType(type);
   if (args.length > 1 && stringifyTypes[0] == "number")
-    argsString = args[0].toString() + ": ";
+    argsString += args[0].toString() + ": ";
   else if (args.length > 0 && stringifyTypes[0] == "number")
-    argsString = ": " + args[0].toString();
+    argsString += ": " + args[0].toString();
   else if (args.length > 0 && stringifyTypes[0] == "string")
-    argsString = args[0].toString();
+    argsString += ":" + args[0].toString();
   if (args.length > 1 && stringifyTypes[1] == "string")
     argsString += args[1].toString();
   else if (args.length > 1 && stringifyTypes[1] == "number")

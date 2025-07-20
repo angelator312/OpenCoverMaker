@@ -4,13 +4,13 @@ import { ILineEditsGroup, WithRequired } from "@/data/types";
 import { stringifyArgsFromType } from "@/data/utils";
 import { Group, NumberInput, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
-export const regexForVerse = /\[Verse (\d+):(.*)\]/g;
-export const regexForChorus = /\[Chorus:(.*)\]/g;
-export const regexForBridge = /\[Bridge (\d+):(.*)\]/g;
-export const regexForPrechorus = /\[Pre-Chorus:(.*)\]/g;
-export const regexForIntro = /\[Intro ()\]/g;
-export const regexForOutro = /\[Outro ()\]/g;
-export const regexForComment = /\[Comment:(.*)\]/g;
+export const regexForVerse = /\[Verse\s*(\d+):(.*)\]/g;
+export const regexForChorus = /\[Chorus\s*:(.*)\]/g;
+export const regexForBridge = /\[Bridge\s*(\d+):(.*)\]/g;
+export const regexForPrechorus = /\[Pre-Chorus\s*:(.*)\]/g;
+export const regexForIntro = /\[Intro\s*()\]/g;
+export const regexForOutro = /\[Outro\s*()\]/g;
+export const regexForComment = /\[Comment\s*:(.*)\]/g;
 export const regexes = [
   regexForVerse,
   regexForChorus,
