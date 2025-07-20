@@ -13,7 +13,7 @@ export default function HomePage() {
     if (storedSongs) {
       setSongs(storedSongs);
     }
-  }, [localStorage]);
+  }, []);
   return (
     <AppShellTemplate>
       <Title>Home page</Title>
