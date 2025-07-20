@@ -2,7 +2,7 @@ import { TypeEnum } from "@/data/enums";
 import { selectOptionsForSquareBrackets } from "@/data/names";
 import { ArgTypes, ILineEditsGroup, WithRequired } from "@/data/types";
 import { stringifyArgsFromType } from "@/data/utils";
-import { Group, Select, Text, TextInput } from "@mantine/core";
+import { Group, NumberInput, Select, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 const regex_for_verse = /\[Verse:(.*)\]/g;
 const regex_for_chorus = /\[Chorus:(.*)\]/g;
@@ -32,6 +32,10 @@ export default function SquareBracketLineEdit({
   lineEditGroup: ILineEditsGroup;
   setLineEditsGroup: (group: ILineEditsGroup) => void;
 }) {
+  const [stringifyArgs, setStringifyArgs] = useState<string[]>([]);
+  useEffect(() => {
+    setStringifyArgs(stringifyArgsFromType(lineEditGroup.type));
+  }, [lineEditGroup.type]);
   // const [value, setValue] = useState("");
   return (
     <Group>
@@ -45,19 +49,40 @@ export default function SquareBracketLineEdit({
         // inputSize="100"
       />
       <Text>:</Text>
-      <TextInput
-        autoFocus={autoFocus}
-        value={lineEditGroup.args[0] ?? ""}
-        onChange={(e) => {
-          const new_args = lineEditGroup.args;
-          new_args[0] = e.currentTarget.value;
-          setLineEditsGroup({
-            ...lineEditGroup,
-            args: new_args,
-          });
-        }}
-        // inputSize="100"
-      />
+      {stringifyArgs.map((arg, index) =>
+        arg == "string" ? (
+          <TextInput
+            key={index}
+            autoFocus={autoFocus}
+            value={lineEditGroup.args[index] ?? ""}
+            onChange={(e) => {
+              const new_args = lineEditGroup.args;
+              new_args[index] = e.currentTarget.value;
+              setLineEditsGroup({
+                ...lineEditGroup,
+                args: new_args,
+              });
+            }}
+            // inputSize="100"
+          />
+        ) : arg == "number" ? (
+          <NumberInput
+            key={index}
+            autoFocus={autoFocus}
+            value={lineEditGroup.args[index] ?? ""}
+            onChange={(e) => {
+              const new_args = lineEditGroup.args;
+              if (typeof e === "string") new_args[index] = parseInt(e);
+              else new_args[index] = e;
+              setLineEditsGroup({
+                ...lineEditGroup,
+                args: new_args,
+              });
+            }}
+            // inputSize="100"
+          />
+        ) : null,
+      )}
     </Group>
   );
 }
