@@ -5,17 +5,13 @@ import { GenreEnum } from "@/data/enums";
 import { save_song } from "@/data/LocalStorageSave";
 import { SongDetails } from "@/data/types";
 import { makeSongKey } from "@/data/utils";
-import {
-  Group,
-  TextInput,
-  Space,
-  Button,
-  Collapse,
-  Textarea,
-} from "@mantine/core";
+import { Group, TextInput, Space, Button, Textarea } from "@mantine/core";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function NewCoverPage() {
+  const router = useRouter();
+
   const [originalLyrics, setOriginalLyrics] = useState("");
   const [newSongName, setNewSongName] = useState("");
   const [newArtistName, setNewArtistName] = useState("");
@@ -77,6 +73,7 @@ export default function NewCoverPage() {
           };
           console.log(songDetails);
           save_song(songDetails);
+          router.push("/editor?key=" + key);
           // Implement logic to create a new song cover using songDetails
         }}
       >
