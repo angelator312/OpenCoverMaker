@@ -1,4 +1,4 @@
-import { TypeEnum, GenreEnum, LanguageEnum } from "./enums";
+import { TypeEnum, GenreEnum } from "./enums";
 
 export interface ILineEditsGroup {
   originalLyrics: string;
@@ -17,6 +17,7 @@ export interface SongDetails {
   originalSongName: string;
   URLForLyrics: string;
   key: string;
+  lastUpdated: number;
 }
 
 export interface WorkingStats {

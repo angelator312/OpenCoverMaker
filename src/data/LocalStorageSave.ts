@@ -1,3 +1,4 @@
+import { updatedSongDetails } from "@/updater/UpdaterForSongDetails";
 import { SongDetails } from "./types";
 
 let all_songs_key: string = "keys";
@@ -8,6 +9,14 @@ export function saveSongDetails(songDetails: SongDetails) {
 }
 
 export function loadSongDetails(key: string): SongDetails | null {
+  let song = _loadSongDetails(key);
+  if (song) {
+    return updatedSongDetails(song);
+  }
+  return null;
+}
+
+export function _loadSongDetails(key: string): SongDetails | null {
   const songDetails = localStorage.getItem(key);
   if (songDetails) {
     return JSON.parse(songDetails);
