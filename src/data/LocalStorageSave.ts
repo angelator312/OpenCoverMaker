@@ -1,4 +1,4 @@
-import { updatedSongDetails } from "@/updater/UpdaterForSongDetails";
+import { updatedSongDetails } from "@/songDetails/UpdaterForSongDetails";
 import { SongDetails } from "./types";
 
 let all_songs_key: string = "keys";

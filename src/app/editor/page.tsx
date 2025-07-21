@@ -13,6 +13,7 @@ import {
   partialLineEditFromStringAndType,
   squareLineFromTypeAndArgs,
 } from "@/data/utils";
+import { defaultSongDetails } from "@/songDetails/utils";
 import { Button, Group, Space, Stack, Title, Tooltip } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -53,17 +54,8 @@ function fromLinesToLineEditGroups(
 }
 
 export default function EditorPage() {
-  const [searchQuery, setSearchQuery] = useState<SongDetails>({
-    newSongName: "",
-    newArtist: "",
-    newGenre: GenreEnum.Pop,
-    newLyrics: "",
-    originalArtist: "",
-    originalLyrics: "",
-    originalSongName: "",
-    URLForLyrics: "",
-    key: "KEY",
-  });
+  const [searchQuery, setSearchQuery] =
+    useState<SongDetails>(defaultSongDetails());
   const searchParams = useSearchParams();
   const router = useRouter();
   const updateSearchQuery = (updatedQuery: SongDetails) => {

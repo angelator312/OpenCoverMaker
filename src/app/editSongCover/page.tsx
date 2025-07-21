@@ -23,6 +23,7 @@ export default function EditCoverPage() {
     originalSongName: "",
     URLForLyrics: "",
     key: "KEY",
+    lastUpdated: Date.now(),
   });
   useEffect(() => {
     const songId = searchParams.get("key") ?? "";

@@ -6,6 +6,7 @@ import { GenreEnum } from "@/data/enums";
 import { saveSongDetails } from "@/data/LocalStorageSave";
 import { SongDetails } from "@/data/types";
 import { makeSongKey } from "@/data/utils";
+import { defaultSongDetails } from "@/songDetails/utils";
 import {
   Group,
   TextInput,
@@ -20,17 +21,9 @@ import { useState } from "react";
 export default function NewCoverPage() {
   const router = useRouter();
 
-  const [songDetails, setSongDetails] = useState<SongDetails>({
-    newSongName: "",
-    newArtist: "",
-    newGenre: GenreEnum.Pop,
-    newLyrics: "",
-    originalArtist: "",
-    originalLyrics: "",
-    originalSongName: "",
-    URLForLyrics: "",
-    key: makeSongKey(25),
-  });
+  const [songDetails, setSongDetails] = useState<SongDetails>(
+    defaultSongDetails(25),
+  );
   return (
     <AppShellTemplate>
       <Title>New Song cover</Title>
