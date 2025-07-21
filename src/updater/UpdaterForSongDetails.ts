@@ -9,6 +9,8 @@ export function updatedSongDetails(song: SongDetails): SongDetails {
   if (!song.lastUpdated) song.lastUpdated = 0;
   if (song.lastUpdated > lastTimeOfNewSongDetailFeature) return song;
   //Add new features:
+
+  song.lastUpdated = Date.now();
   saveSongDetails(song);
   return song;
 }

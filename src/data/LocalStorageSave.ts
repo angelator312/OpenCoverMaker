@@ -4,7 +4,7 @@ import { SongDetails } from "./types";
 let all_songs_key: string = "keys";
 
 export function saveSongDetails(songDetails: SongDetails) {
-  if (loadSongDetails(songDetails.key) === null) _addSong(songDetails.key);
+  if (_isThereASong(songDetails.key) === null) _addSong(songDetails.key);
   localStorage.setItem(songDetails.key, JSON.stringify(songDetails));
 }
 
@@ -38,4 +38,8 @@ function _addSong(key: string) {
   let songs: string[] = JSON.parse(localStorage.getItem(all_songs_key) ?? "[]");
   songs.push(key);
   localStorage.setItem(all_songs_key, JSON.stringify(songs));
+}
+
+export function _isThereASong(key: string): boolean {
+  return localStorage.getItem(key) !== null;
 }
