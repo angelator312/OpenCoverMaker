@@ -1,6 +1,6 @@
 "use client";
 import AppShellTemplate from "@/components/AppShellTemplate";
-import { get_songs } from "@/data/LocalStorageSave";
+import { getAllSongs } from "@/data/LocalStorageSave";
 import { SongDetails } from "@/data/types";
 import { Stack, Title } from "@mantine/core";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function HomePage() {
   const [songs, setSongs] = useState<SongDetails[]>([]);
   useEffect(() => {
-    const storedSongs = get_songs();
+    const storedSongs = getAllSongs();
     if (storedSongs) {
       setSongs(storedSongs);
     }

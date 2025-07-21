@@ -7,7 +7,7 @@ import {
   typeFromString,
 } from "@/components/SquareBracketLineEdit";
 import { GenreEnum } from "@/data/enums";
-import { load_song, save_song } from "@/data/LocalStorageSave";
+import { loadSongDetails, saveSongDetails } from "@/data/LocalStorageSave";
 import { ILineEditsGroup, SongDetails } from "@/data/types";
 import {
   partialLineEditFromStringAndType,
@@ -68,7 +68,7 @@ export default function EditorPage() {
   const router = useRouter();
   const updateSearchQuery = (updatedQuery: SongDetails) => {
     console.log("updatedQuery:", updatedQuery);
-    save_song(updatedQuery);
+    saveSongDetails(updatedQuery);
   };
 
   const [newLyrics, setNewLyrics] = useState<string>("");
@@ -86,7 +86,7 @@ export default function EditorPage() {
 
   useEffect(() => {
     const songId = searchParams.get("key") ?? "";
-    let song = load_song(songId);
+    let song = loadSongDetails(songId);
     if (song) {
       console.log("load song:", song);
       setSearchQuery(song);

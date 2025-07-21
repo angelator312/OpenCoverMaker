@@ -3,7 +3,7 @@ import AppShellTemplate from "@/components/AppShellTemplate";
 import { EasyEditOfLyrics } from "@/components/EasyEditOfLyrics";
 import SettingsOfSongCover from "@/components/SettingsOfSongCover";
 import { GenreEnum } from "@/data/enums";
-import { save_song } from "@/data/LocalStorageSave";
+import { saveSongDetails } from "@/data/LocalStorageSave";
 import { SongDetails } from "@/data/types";
 import { makeSongKey } from "@/data/utils";
 import {
@@ -48,7 +48,7 @@ export default function NewCoverPage() {
       <Button
         onClick={() => {
           console.log(songDetails);
-          save_song(songDetails);
+          saveSongDetails(songDetails);
           router.push("/editor?key=" + songDetails.key);
           // Implement logic to create a new song cover using songDetails
         }}

@@ -3,7 +3,7 @@ import AppShellTemplate from "@/components/AppShellTemplate";
 import { EasyEditOfLyrics } from "@/components/EasyEditOfLyrics";
 import SettingsOfSongCover from "@/components/SettingsOfSongCover";
 import { GenreEnum } from "@/data/enums";
-import { load_song, save_song } from "@/data/LocalStorageSave";
+import { loadSongDetails, saveSongDetails } from "@/data/LocalStorageSave";
 import { SongDetails } from "@/data/types";
 import { Group, Space, Button, Title, Center, Tooltip } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
@@ -26,7 +26,7 @@ export default function EditCoverPage() {
   });
   useEffect(() => {
     const songId = searchParams.get("key") ?? "";
-    let song = load_song(songId);
+    let song = loadSongDetails(songId);
     if (song) {
       console.log("load song:", song);
       setSongDetails(song);
@@ -40,7 +40,7 @@ export default function EditCoverPage() {
   const [key, setKey] = useState("");
   const save = () => {
     console.log(songDetails);
-    save_song(songDetails);
+    saveSongDetails(songDetails);
     // Implement logic to create a new song cover using songDetails
   };
   useHotkeys([["ctrl+S", () => save()]], []);
