@@ -5,6 +5,7 @@ import React, { useCallback, useMemo } from "react";
 import { useEffect, useState } from "react";
 import CharecterCounter from "./StatCounters/CharecterCounter";
 import WordCounter from "./StatCounters/WordsCounter";
+import SyllableCounter from "./StatCounters/SyllableCounter";
 
 export let LineEdit = React.memo(LineEditComp);
 
@@ -53,6 +54,9 @@ function LineEditComp({
         )}
         {workingStats.words && (
           <WordCounter originalLyrics={org_lyrics} newLyrics={new_lyrics} />
+        )}
+        {workingStats.syllables && (
+          <SyllableCounter originalLyrics={org_lyrics} newLyrics={new_lyrics} />
         )}
       </Group>
     </Group>
