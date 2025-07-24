@@ -1,4 +1,4 @@
-name: Deploy to https://loudwolf.angelator312.top/
+name: Deploy to https://covermaker.angelator312.top/
 on:
   push:
     tags:
